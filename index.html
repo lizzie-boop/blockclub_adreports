@@ -527,7 +527,7 @@
 
       const clk = document.createElement('span');
       clk.className = 'link-clicks';
-      const uc = parseInt(l.uniqueclicks || 0);
+      const uc = parseInt(l.uniquelinkclicks || 0);
       clk.textContent = uc.toLocaleString() + ' unique click' + (uc !== 1 ? 's' : '');
 
       row.appendChild(cb);
@@ -591,15 +591,15 @@
 
       let emailTotalClicks = 0, emailUniqueClicks = 0;
       allLinks.forEach(l => {
-        emailTotalClicks += parseInt(l.clicks || 0);
-        emailUniqueClicks += parseInt(l.uniqueclicks || 0);
+        emailTotalClicks += parseInt(l.linkclicks || 0);
+        emailUniqueClicks += parseInt(l.uniquelinkclicks || 0);
       });
 
       const selectedLinkObjs = [...selectedLinks].map(i => allLinks[i]);
       let totalClicks = 0, uniqueClicks = 0;
       selectedLinkObjs.forEach(l => {
-        totalClicks += parseInt(l.clicks || 0);
-        uniqueClicks += parseInt(l.uniqueclicks || 0);
+        totalClicks += parseInt(l.linkclicks || 0);
+        uniqueClicks += parseInt(l.uniquelinkclicks || 0);
       });
 
       const acctName = 'blockclubchi';
@@ -613,8 +613,8 @@
 
       const linkLines = selectedLinkObjs.map(l =>
         '  ' + l.link + '\n' +
-        '  Total clicks: ' + parseInt(l.clicks || 0).toLocaleString() +
-        '   ·   Unique clicks: ' + parseInt(l.uniqueclicks || 0).toLocaleString()
+        '  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() +
+        '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
       ).join('\n\n');
 
       const report =
