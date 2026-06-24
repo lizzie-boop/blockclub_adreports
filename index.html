@@ -589,6 +589,12 @@
       const totalOpens = parseInt(c.opens || 0);
       const uniqueOpens = parseInt(c.uniqueopens || 0);
 
+      let emailTotalClicks = 0, emailUniqueClicks = 0;
+      allLinks.forEach(l => {
+        emailTotalClicks += parseInt(l.clicks || 0);
+        emailUniqueClicks += parseInt(l.uniqueclicks || 0);
+      });
+
       const selectedLinkObjs = [...selectedLinks].map(i => allLinks[i]);
       let totalClicks = 0, uniqueClicks = 0;
       selectedLinkObjs.forEach(l => {
@@ -626,12 +632,12 @@ Total recipients:   ${totalSent.toLocaleString()}
 Total opens:        ${totalOpens.toLocaleString()}
 Unique opens:       ${uniqueOpens.toLocaleString()}
 
+Total clicks:       ${emailTotalClicks.toLocaleString()}
+Unique clicks:      ${emailUniqueClicks.toLocaleString()}
+
 ─────────────────────────────────────
 YOUR AD — LINK PERFORMANCE
 ─────────────────────────────────────
-Total clicks (all your links):    ${totalClicks.toLocaleString()}
-Unique clicks (all your links):   ${uniqueClicks.toLocaleString()}
-
 Link breakdown:
 
 ${linkLines}
