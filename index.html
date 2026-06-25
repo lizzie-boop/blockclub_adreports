@@ -611,11 +611,13 @@
 
       const campaignName = (campaignData[campaignId] || c).name || 'this newsletter';
 
-      const linkLines = selectedLinkObjs.map(l =>
+   const linkLines = selectedLinkObjs.map(l =>
         '  ' + l.link + '\n' +
         '  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() +
         '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
       ).join('\n\n');
+
+      const openRate = totalSent > 0 ? (uniqueOpens / totalSent * 100).toFixed(1) + '%' : 'N/A';
 
       const report =
 `Hi [Name],
@@ -631,9 +633,7 @@ EMAIL PERFORMANCE
 Total recipients:   ${totalSent.toLocaleString()}
 Total opens:        ${totalOpens.toLocaleString()}
 Unique opens:       ${uniqueOpens.toLocaleString()}
-
-Total clicks:       ${emailTotalClicks.toLocaleString()}
-Unique clicks:      ${emailUniqueClicks.toLocaleString()}
+Open rate:          ${openRate}
 
 ─────────────────────────────────────
 YOUR AD — LINK PERFORMANCE
