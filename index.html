@@ -146,6 +146,19 @@
 
   input[type="text"]:focus, select:focus { border-color: var(--black); }
 
+  input[type="date"] {
+    padding: 10px 12px;
+    font-size: 15px;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: #fff;
+    color: var(--black);
+    outline: none;
+    width: 100%;
+  }
+  input[type="date"]:focus { border-color: var(--black); }
+
   .hint {
     font-family: 'Arial', sans-serif;
     font-size: 12px;
@@ -371,12 +384,20 @@
       <span class="step-num">Step 1</span>
       <span class="step-title">Select a campaign</span>
     </div>
-    <div style="display:flex;gap:10px;align-items:center;">
-      <select id="campaign-select" style="flex:1">
-        <option value="">— click Load to fetch recent campaigns —</option>
-      </select>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:6px;flex:1">
+        <label style="margin:0;white-space:nowrap">From</label>
+        <input type="date" id="date-from" />
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex:1">
+        <label style="margin:0;white-space:nowrap">To</label>
+        <input type="date" id="date-to" />
+      </div>
       <button class="btn" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Load campaigns</button>
     </div>
+    <select id="campaign-select" style="width:100%">
+      <option value="">— set a date range and click Load —</option>
+    </select>
     <div id="campaign-status"></div>
   </div>
 
@@ -449,14 +470,27 @@
   }
 
   async function loadCampaigns() {
+    const from = document.getElementById('date-from').value;
+    const to = document.getElementById('date-to').value;
+
+    if (!from || !to) {
+      showStatus('campaign-status', 'Please select a start and end date.', true);
+      return;
+    }
+
     const btn = document.getElementById('load-btn');
     btn.disabled = true;
-    showStatus('campaign-status', 'Loading recent campaigns…');
+    showStatus('campaign-status', 'Loading campaigns…');
     try {
-      const data = await acFetch('campaigns?limit=50&orders[sdate]=DESC&filters[status]=5');
+      const fromTs = from + ' 00:00:00';
+      const toTs = to + ' 23:59:59';
+      const path = 'campaigns?limit=200&orders[sdate]=DESC&filters[status]=5'
+        + '&filters[sdate_since]=' + encodeURIComponent(fromTs)
+        + '&filters[sdate_until]=' + encodeURIComponent(toTs);
+      const data = await acFetch(path);
       const campaigns = data.campaigns || [];
       if (!campaigns.length) {
-        showStatus('campaign-status', 'No sent campaigns found.', true);
+        showStatus('campaign-status', 'No sent campaigns found in that date range.', true);
         return;
       }
       const sel = document.getElementById('campaign-select');
@@ -470,7 +504,7 @@
         sel.appendChild(opt);
       });
       sel.onchange = () => onCampaignSelect(sel.value);
-      showStatus('campaign-status', '');
+      showStatus('campaign-status', campaigns.length + ' campaigns found.');
     } catch(e) {
       showStatus('campaign-status', e.message, true);
     } finally {
@@ -611,7 +645,7 @@
 
       const campaignName = (campaignData[campaignId] || c).name || 'this newsletter';
 
-   const linkLines = selectedLinkObjs.map(l =>
+      const linkLines = selectedLinkObjs.map(l =>
         '  ' + l.link + '\n' +
         '  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() +
         '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
@@ -676,6 +710,8 @@ Block Club Chicago`;
     document.getElementById('step3').style.display = 'none';
     document.getElementById('generate-section').style.display = 'none';
     document.getElementById('campaign-select').value = '';
+    document.getElementById('date-from').value = '';
+    document.getElementById('date-to').value = '';
     document.getElementById('advertiser-name').value = '';
     document.getElementById('gen-status').innerHTML = '';
     document.getElementById('campaign-status').innerHTML = '';
