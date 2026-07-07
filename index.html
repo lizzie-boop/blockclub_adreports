@@ -12,9 +12,7 @@
     --offwhite: #f7f6f3;
     --rule: #d8d5ce;
     --accent: #c8392b;
-    --accent-light: #fdf1f0;
     --muted: #767370;
-    --success-bg: #edf7f0;
     --success: #1e7e40;
     --error-bg: #fdf1f0;
     --error: #c8392b;
@@ -22,350 +20,121 @@
     --purple-light: #EEEDFE;
   }
 
-  body {
-    font-family: 'Georgia', serif;
-    background: var(--offwhite);
-    color: var(--black);
-    min-height: 100vh;
-  }
+  body { font-family: 'Georgia', serif; background: var(--offwhite); color: var(--black); min-height: 100vh; }
 
   header {
-    background: var(--black);
-    padding: 18px 40px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    border-bottom: 3px solid var(--accent);
+    background: var(--black); padding: 18px 40px; display: flex;
+    align-items: center; gap: 16px; border-bottom: 3px solid var(--accent);
   }
-
-  .masthead {
-    font-family: 'Georgia', serif;
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
-    letter-spacing: -0.01em;
-  }
-
+  .masthead { font-family: 'Georgia', serif; font-size: 20px; font-weight: bold; color: #fff; letter-spacing: -0.01em; }
   .masthead span { color: var(--accent); }
+  .tool-label { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: #888; border-left: 1px solid #444; padding-left: 16px; margin-left: 4px; }
 
-  .tool-label {
-    font-family: 'Arial', sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #888;
-    border-left: 1px solid #444;
-    padding-left: 16px;
-    margin-left: 4px;
-  }
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+  .page-title { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
+  h1 { font-family: 'Georgia', serif; font-size: 28px; font-weight: bold; color: var(--black); line-height: 1.2; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
 
-  .container {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
-
-  .page-title {
-    font-family: 'Arial', sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  h1 {
-    font-family: 'Georgia', serif;
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--black);
-    line-height: 1.2;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--rule);
-  }
+  /* Mode toggle */
+  .mode-toggle { display: flex; gap: 0; margin-bottom: 32px; border: 1.5px solid var(--black); border-radius: 4px; overflow: hidden; }
+  .mode-btn { flex: 1; padding: 10px 16px; font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; border: none; background: #fff; color: var(--muted); cursor: pointer; transition: background 0.12s, color 0.12s; }
+  .mode-btn:first-child { border-right: 1.5px solid var(--black); }
+  .mode-btn.active { background: var(--black); color: #fff; }
 
   .step { margin-bottom: 28px; }
+  .step-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .step-num { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); flex-shrink: 0; }
+  .step-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; color: var(--black); }
 
-  .step-header {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .step-num {
-    font-family: 'Arial', sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .step-title {
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--black);
-  }
-
-  label {
-    font-family: 'Arial', sans-serif;
-    font-size: 13px;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 6px;
-  }
+  label { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--muted); display: block; margin-bottom: 6px; }
 
   input[type="text"], select {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 15px;
-    font-family: 'Arial', sans-serif;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: #fff;
-    color: var(--black);
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    transition: border-color 0.15s;
+    width: 100%; padding: 10px 12px; font-size: 15px; font-family: 'Arial', sans-serif;
+    border: 1px solid var(--rule); border-radius: 4px; background: #fff; color: var(--black);
+    appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s;
   }
-
   select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23767370' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-    cursor: pointer;
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; cursor: pointer;
   }
-
   input[type="text"]:focus, select:focus { border-color: var(--black); }
-
   input[type="date"] {
-    padding: 10px 12px;
-    font-size: 15px;
-    font-family: 'Arial', sans-serif;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: #fff;
-    color: var(--black);
-    outline: none;
-    width: 100%;
+    padding: 10px 12px; font-size: 15px; font-family: 'Arial', sans-serif;
+    border: 1px solid var(--rule); border-radius: 4px; background: #fff; color: var(--black); outline: none; width: 100%;
   }
   input[type="date"]:focus { border-color: var(--black); }
 
-  .hint {
-    font-family: 'Arial', sans-serif;
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 6px;
-    line-height: 1.5;
-  }
-
+  .hint { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
   .rule { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
 
-  .links-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .text-btn {
-    font-family: 'Arial', sans-serif;
-    font-size: 12px;
-    color: var(--accent);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-  }
-
-  .links-list {
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: #fff;
-    max-height: 280px;
-    overflow-y: auto;
-  }
-
-  .link-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--rule);
-    cursor: pointer;
-    transition: background 0.1s;
-  }
-
+  /* Single email link picker */
+  .links-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .text-btn { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--accent); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; }
+  .links-list { border: 1px solid var(--rule); border-radius: 4px; background: #fff; max-height: 280px; overflow-y: auto; }
+  .link-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--rule); cursor: pointer; transition: background 0.1s; }
   .link-row:last-child { border-bottom: none; }
   .link-row:hover { background: #faf9f7; }
   .link-row.selected { background: var(--purple-light); }
-
-  .link-row input[type="checkbox"] {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    margin-top: 2px;
-    accent-color: var(--accent);
-    cursor: pointer;
-  }
-
-  .link-url {
-    font-family: 'Arial', sans-serif;
-    font-size: 13px;
-    color: var(--black);
-    word-break: break-all;
-    line-height: 1.4;
-    flex: 1;
-  }
-
+  .link-row input[type="checkbox"] { width: 15px; height: 15px; flex-shrink: 0; margin-top: 2px; accent-color: var(--accent); cursor: pointer; }
+  .link-url { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--black); word-break: break-all; line-height: 1.4; flex: 1; }
   .link-row.selected .link-url { color: #3C3489; }
-
-  .link-clicks {
-    font-family: 'Arial', sans-serif;
-    font-size: 12px;
-    color: var(--muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding-top: 2px;
-  }
-
+  .link-clicks { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--muted); white-space: nowrap; flex-shrink: 0; padding-top: 2px; }
   .link-row.selected .link-clicks { color: var(--purple); }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 10px 18px;
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 4px;
-    border: 1.5px solid var(--black);
-    background: #fff;
-    color: var(--black);
-    cursor: pointer;
-    transition: background 0.12s;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
+  /* Multi-newsletter campaign list */
+  .campaign-checklist { border: 1px solid var(--rule); border-radius: 4px; background: #fff; max-height: 400px; overflow-y: auto; }
+  .campaign-check-row { border-bottom: 1px solid var(--rule); }
+  .campaign-check-row:last-child { border-bottom: none; }
+  .campaign-check-header { display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer; transition: background 0.1s; }
+  .campaign-check-header:hover { background: #faf9f7; }
+  .campaign-check-header.checked { background: var(--purple-light); }
+  .campaign-check-header input[type="checkbox"] { width: 15px; height: 15px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+  .campaign-check-label { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--black); flex: 1; line-height: 1.4; }
+  .campaign-check-header.checked .campaign-check-label { color: #3C3489; }
+  .campaign-link-status { font-family: 'Arial', sans-serif; font-size: 11px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .campaign-check-header.checked .campaign-link-status { color: var(--purple); }
+  .campaign-links-panel { display: none; padding: 8px 12px 12px 36px; background: #faf9f7; border-top: 1px solid var(--rule); }
+  .campaign-links-panel.open { display: block; }
+  .campaign-links-panel .links-list { max-height: 180px; }
 
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; border-radius: 4px; border: 1.5px solid var(--black); background: #fff; color: var(--black); cursor: pointer; transition: background 0.12s; text-transform: uppercase; letter-spacing: 0.04em; }
   .btn:hover { background: var(--offwhite); }
   .btn:active { transform: scale(0.98); }
-
-  .btn-primary {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-  }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
   .btn-primary:hover { background: #a82e23; border-color: #a82e23; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
 
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Arial', sans-serif;
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 10px;
-  }
-
-  .spinner {
-    width: 14px; height: 14px;
-    border: 2px solid var(--rule);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
-  }
-
+  /* Status */
+  .status { display: flex; align-items: center; gap: 8px; font-family: 'Arial', sans-serif; font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .error-box { font-family: 'Arial', sans-serif; font-size: 13px; padding: 10px 14px; background: var(--error-bg); border-left: 3px solid var(--error); color: var(--error); border-radius: 0 4px 4px 0; margin-top: 10px; line-height: 1.5; }
 
-  .error-box {
-    font-family: 'Arial', sans-serif;
-    font-size: 13px;
-    padding: 10px 14px;
-    background: var(--error-bg);
-    border-left: 3px solid var(--error);
-    color: var(--error);
-    border-radius: 0 4px 4px 0;
-    margin-top: 10px;
-    line-height: 1.5;
-  }
-
-  .report-section {
-    margin-top: 36px;
-    border-top: 3px solid var(--black);
-    padding-top: 24px;
-  }
-
-  .report-eyebrow {
-    font-family: 'Arial', sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
-
-  .report-box {
-    background: #fff;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 20px 24px;
-    margin-bottom: 14px;
-  }
-
-  .report-box pre {
-    font-family: 'Arial', sans-serif;
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--black);
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .copy-confirm {
-    font-family: 'Arial', sans-serif;
-    font-size: 13px;
-    color: var(--success);
-    display: none;
-    align-items: center;
-    gap: 6px;
-    margin-top: 8px;
-  }
-
+  /* Promo email report output */
+  .report-section { margin-top: 36px; border-top: 3px solid var(--black); padding-top: 24px; }
+  .report-eyebrow { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
+  .report-box { background: #fff; border: 1px solid var(--rule); border-radius: 4px; padding: 20px 24px; margin-bottom: 14px; }
+  .report-box pre { font-family: 'Arial', sans-serif; font-size: 14px; line-height: 1.75; color: var(--black); white-space: pre-wrap; word-break: break-word; }
+  .copy-confirm { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--success); display: none; align-items: center; gap: 6px; margin-top: 8px; }
   .copy-confirm.show { display: flex; }
-
-  .count-badge {
-    display: inline-block;
-    font-family: 'Arial', sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 10px;
-    padding: 1px 8px;
-    margin-left: 6px;
-  }
+  .count-badge { display: inline-block; font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; background: var(--accent); color: #fff; border-radius: 10px; padding: 1px 8px; margin-left: 6px; }
 
   @media (max-width: 500px) {
     header { padding: 14px 16px; }
     .container { padding: 28px 16px 60px; }
     h1 { font-size: 22px; }
   }
+
+  /* ── Print / PDF styles ── */
+  @media print {
+    @page { margin: 0.75in; size: letter; }
+    body { background: #fff; }
+    header, .mode-toggle, .step, .rule, .report-section, .btn-row, .copy-confirm, #campaign-status, #gen-status { display: none !important; }
+    #print-area { display: block !important; }
+  }
+
+  #print-area { display: none; }
 </style>
 </head>
 <body>
@@ -379,10 +148,17 @@
   <p class="page-title">Advertiser reporting tool</p>
   <h1>Generate an ad performance report</h1>
 
-  <div class="step" id="step1">
+  <!-- Mode toggle -->
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="mode-promo" onclick="setMode('promo')">Promo Email</button>
+    <button class="mode-btn" id="mode-multi" onclick="setMode('multi')">Multi-Newsletter Campaign</button>
+  </div>
+
+  <!-- Shared: date range + load -->
+  <div class="step" id="step-dates">
     <div class="step-header">
       <span class="step-num">Step 1</span>
-      <span class="step-title">Select a campaign</span>
+      <span class="step-title">Select campaign(s)</span>
     </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <div style="display:flex;align-items:center;gap:6px;flex:1">
@@ -395,18 +171,30 @@
       </div>
       <button class="btn" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Load campaigns</button>
     </div>
-    <select id="campaign-select" style="width:100%">
-      <option value="">— set a date range and click Load —</option>
-    </select>
-    <div id="campaign-status"></div>
-    <div id="load-more-row" style="display:none;margin-top:10px;">
-      <button class="btn" onclick="loadCampaigns(true)" id="load-more-btn">Load more campaigns</button>
+
+    <!-- Promo: single dropdown -->
+    <div id="promo-select-wrap">
+      <select id="campaign-select" style="width:100%">
+        <option value="">— set a date range and click Load —</option>
+      </select>
     </div>
+
+    <!-- Multi: checklist -->
+    <div id="multi-checklist-wrap" style="display:none">
+      <div class="links-header" style="margin-bottom:8px">
+        <label style="margin:0" id="multi-check-hint">Check all campaigns that belong to this advertiser's buy.</label>
+        <span id="multi-check-badge"></span>
+      </div>
+      <div class="campaign-checklist" id="campaign-checklist"></div>
+    </div>
+
+    <div id="campaign-status"></div>
   </div>
 
-  <hr class="rule">
+  <hr class="rule" id="rule1" style="display:none">
 
-  <div class="step" id="step2" style="display:none">
+  <!-- PROMO MODE: link picker -->
+  <div class="step" id="step-promo-links" style="display:none">
     <div class="step-header">
       <span class="step-num">Step 2</span>
       <span class="step-title">Select the advertiser's links <span id="sel-count-badge"></span></span>
@@ -420,15 +208,17 @@
 
   <hr class="rule" id="rule2" style="display:none">
 
-  <div class="step" id="step3" style="display:none">
+  <!-- Advertiser name (shared) -->
+  <div class="step" id="step-name" style="display:none">
     <div class="step-header">
-      <span class="step-num">Step 3</span>
+      <span class="step-num" id="name-step-num">Step 3</span>
       <span class="step-title">Advertiser name</span>
     </div>
-    <input type="text" id="advertiser-name" placeholder="e.g. Acme Co." />
-    <p class="hint">This appears in the report header sent to the client.</p>
+    <input type="text" id="advertiser-name" placeholder="e.g. Art Institute of Chicago" />
+    <p class="hint">Used in the report title.</p>
   </div>
 
+  <!-- Generate button -->
   <div id="generate-section" style="display:none">
     <div class="btn-row">
       <button class="btn btn-primary" id="gen-btn" onclick="generateReport()">Generate report</button>
@@ -436,6 +226,7 @@
     <div id="gen-status"></div>
   </div>
 
+  <!-- PROMO: inline copy/paste output -->
   <div class="report-section" id="report-section" style="display:none">
     <p class="report-eyebrow">Report — ready to paste into your email</p>
     <div class="report-box"><pre id="report-text"></pre></div>
@@ -447,12 +238,39 @@
   </div>
 </div>
 
+<!-- PRINT AREA (hidden until PDF generation) -->
+<div id="print-area"></div>
+
 <script>
+  const AC_ACCT = 'blockclubchi';
+
+  let mode = 'promo';
   let campaignData = {};
   let allLinks = [];
   let selectedLinks = new Set();
   let allSelected = false;
+  let campaignOffset = 0;
+  const CAMPAIGN_PAGE_SIZE = 100;
+  let currentFromTs = '';
+  let currentToTs = '';
+  let allFetchedCampaigns = [];
 
+  // Multi-mode state: { campaignId: { links: [...], selectedLinks: Set } }
+  let multiCampaignLinks = {};
+  let checkedCampaigns = new Set();
+
+  // ── Mode switching ──────────────────────────────────────────────
+  function setMode(m) {
+    mode = m;
+    document.getElementById('mode-promo').classList.toggle('active', m === 'promo');
+    document.getElementById('mode-multi').classList.toggle('active', m === 'multi');
+    document.getElementById('promo-select-wrap').style.display = m === 'promo' ? 'block' : 'none';
+    document.getElementById('multi-checklist-wrap').style.display = m === 'multi' ? 'block' : 'none';
+    document.getElementById('name-step-num').textContent = m === 'promo' ? 'Step 3' : 'Step 2';
+    resetTool(true);
+  }
+
+  // ── API ──────────────────────────────────────────────────────────
   async function acFetch(path) {
     const res = await fetch('/.netlify/functions/ac?path=' + encodeURIComponent(path));
     if (!res.ok) {
@@ -465,27 +283,16 @@
   function showStatus(id, msg, isError) {
     const el = document.getElementById(id);
     if (!msg) { el.innerHTML = ''; return; }
-    if (isError) {
-      el.innerHTML = '<div class="error-box">' + msg + '</div>';
-    } else {
-      el.innerHTML = '<div class="status"><div class="spinner"></div>' + msg + '</div>';
-    }
+    el.innerHTML = isError
+      ? '<div class="error-box">' + msg + '</div>'
+      : '<div class="status"><div class="spinner"></div>' + msg + '</div>';
   }
 
-  let campaignOffset = 0;
-  const CAMPAIGN_PAGE_SIZE = 100;
-  let currentFromTs = '';
-  let currentToTs = '';
-  let allFetchedCampaigns = [];
-
+  // ── Load campaigns ───────────────────────────────────────────────
   async function loadCampaigns() {
     const from = document.getElementById('date-from').value;
     const to = document.getElementById('date-to').value;
-
-    if (!from || !to) {
-      showStatus('campaign-status', 'Please select a start and end date.', true);
-      return;
-    }
+    if (!from || !to) { showStatus('campaign-status', 'Please select a start and end date.', true); return; }
 
     const btn = document.getElementById('load-btn');
     btn.disabled = true;
@@ -493,16 +300,24 @@
     allFetchedCampaigns = [];
     currentFromTs = from;
     currentToTs = to;
-    const sel = document.getElementById('campaign-select');
-    sel.innerHTML = '<option value="">— choose a campaign —</option>';
-    document.getElementById('load-more-row').style.display = 'none';
+    campaignData = {};
+    multiCampaignLinks = {};
+    checkedCampaigns.clear();
+
+    if (mode === 'promo') {
+      const sel = document.getElementById('campaign-select');
+      sel.innerHTML = '<option value="">— choose a campaign —</option>';
+    } else {
+      document.getElementById('campaign-checklist').innerHTML = '';
+      document.getElementById('multi-check-badge').textContent = '';
+    }
+
+    hideStepsBelow('dates');
     showStatus('campaign-status', 'Searching campaigns…');
 
     try {
       while (true) {
-        const path = 'campaigns?limit=' + CAMPAIGN_PAGE_SIZE + '&offset=' + campaignOffset
-          + '&orders[sdate]=DESC&filters[status]=5';
-
+        const path = 'campaigns?limit=' + CAMPAIGN_PAGE_SIZE + '&offset=' + campaignOffset + '&orders[sdate]=DESC&filters[status]=5';
         const data = await acFetch(path);
         const campaigns = data.campaigns || [];
         if (!campaigns.length) break;
@@ -516,33 +331,34 @@
         filtered.forEach(c => {
           campaignData[c.id] = c;
           allFetchedCampaigns.push(c);
-          const opt = document.createElement('option');
-          opt.value = c.id;
-          const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-          opt.textContent = (d ? d + ' — ' : '') + c.name;
-          sel.appendChild(opt);
+          if (mode === 'promo') {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+            opt.textContent = (d ? d + ' — ' : '') + c.name;
+            document.getElementById('campaign-select').appendChild(opt);
+          } else {
+            addCampaignCheckRow(c);
+          }
         });
 
         campaignOffset += campaigns.length;
         const oldestDate = campaigns[campaigns.length - 1].sdate.substring(0, 10);
-
-        if (allFetchedCampaigns.length > 0) {
-          showStatus('campaign-status', allFetchedCampaigns.length + ' found so far, still searching…');
-        }
-
-        // Stop if oldest result is before our from date, or no more pages
+        if (allFetchedCampaigns.length > 0) showStatus('campaign-status', allFetchedCampaigns.length + ' found so far, still searching…');
         if (oldestDate < currentFromTs || campaigns.length < CAMPAIGN_PAGE_SIZE) break;
       }
 
-      sel.onchange = () => onCampaignSelect(sel.value);
-      const total = allFetchedCampaigns.length;
+      if (mode === 'promo') {
+        document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value);
+      }
 
+      const total = allFetchedCampaigns.length;
       if (total === 0) {
         showStatus('campaign-status', 'No sent campaigns found in that date range.', true);
       } else {
         showStatus('campaign-status', total + ' campaign' + (total !== 1 ? 's' : '') + ' found.');
+        if (mode === 'multi') checkMultiReadiness();
       }
-
     } catch(e) {
       showStatus('campaign-status', e.message, true);
     } finally {
@@ -550,104 +366,213 @@
     }
   }
 
-  async function onCampaignSelect(id) {
+  // ── Promo mode ───────────────────────────────────────────────────
+  async function onPromoSelect(id) {
     if (!id) return;
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('rule2').style.display = 'none';
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('generate-section').style.display = 'none';
-    document.getElementById('report-section').style.display = 'none';
+    hideStepsBelow('campaign');
     showStatus('campaign-status', 'Loading links for this campaign…');
     try {
       const data = await acFetch('campaigns/' + id + '/links');
       allLinks = (data.links || []).filter(l => l.link);
-      if (!allLinks.length) {
-        showStatus('campaign-status', 'No tracked links found for this campaign.', true);
-        return;
-      }
+      if (!allLinks.length) { showStatus('campaign-status', 'No tracked links found for this campaign.', true); return; }
       showStatus('campaign-status', '');
-      renderLinks();
-      document.getElementById('step2').style.display = 'block';
+      renderPromoLinks();
+      document.getElementById('step-promo-links').style.display = 'block';
       document.getElementById('rule2').style.display = 'block';
-      document.getElementById('step3').style.display = 'block';
+      document.getElementById('step-name').style.display = 'block';
+      document.getElementById('rule1').style.display = 'block';
       document.getElementById('generate-section').style.display = 'block';
     } catch(e) {
       showStatus('campaign-status', e.message, true);
     }
   }
 
-  function renderLinks() {
+  function renderPromoLinks() {
     const container = document.getElementById('links-list');
     container.innerHTML = '';
     selectedLinks.clear();
     allSelected = false;
     document.getElementById('toggle-all-btn').textContent = 'Select all';
-    updateBadge();
+    updatePromoBadge();
     allLinks.forEach((l, i) => {
       const row = document.createElement('div');
       row.className = 'link-row';
-      row.dataset.idx = i;
-      row.onclick = () => toggleLink(i, row);
-
-      const cb = document.createElement('input');
-      cb.type = 'checkbox';
-      cb.onclick = e => { e.stopPropagation(); toggleLink(i, row); };
-
-      const urlSpan = document.createElement('span');
-      urlSpan.className = 'link-url';
-      urlSpan.textContent = l.link;
-
-      const clk = document.createElement('span');
-      clk.className = 'link-clicks';
+      row.onclick = () => togglePromoLink(i, row);
+      const cb = document.createElement('input'); cb.type = 'checkbox';
+      cb.onclick = e => { e.stopPropagation(); togglePromoLink(i, row); };
+      const urlSpan = document.createElement('span'); urlSpan.className = 'link-url'; urlSpan.textContent = l.link;
+      const clk = document.createElement('span'); clk.className = 'link-clicks';
       const uc = parseInt(l.uniquelinkclicks || 0);
       clk.textContent = uc.toLocaleString() + ' unique click' + (uc !== 1 ? 's' : '');
-
-      row.appendChild(cb);
-      row.appendChild(urlSpan);
-      row.appendChild(clk);
+      row.appendChild(cb); row.appendChild(urlSpan); row.appendChild(clk);
       container.appendChild(row);
     });
   }
 
-  function toggleLink(i, row) {
+  function togglePromoLink(i, row) {
     const cb = row.querySelector('input[type=checkbox]');
-    if (selectedLinks.has(i)) {
-      selectedLinks.delete(i);
-      row.classList.remove('selected');
-      cb.checked = false;
-    } else {
-      selectedLinks.add(i);
-      row.classList.add('selected');
-      cb.checked = true;
-    }
-    updateBadge();
+    if (selectedLinks.has(i)) { selectedLinks.delete(i); row.classList.remove('selected'); cb.checked = false; }
+    else { selectedLinks.add(i); row.classList.add('selected'); cb.checked = true; }
+    updatePromoBadge();
   }
 
   function toggleAll() {
     allSelected = !allSelected;
     document.getElementById('toggle-all-btn').textContent = allSelected ? 'Deselect all' : 'Select all';
-    document.querySelectorAll('.link-row').forEach((row, i) => {
+    document.querySelectorAll('#links-list .link-row').forEach((row, i) => {
       const cb = row.querySelector('input[type=checkbox]');
       if (allSelected) { selectedLinks.add(i); row.classList.add('selected'); cb.checked = true; }
       else { selectedLinks.delete(i); row.classList.remove('selected'); cb.checked = false; }
     });
-    updateBadge();
+    updatePromoBadge();
   }
 
-  function updateBadge() {
+  function updatePromoBadge() {
     const n = selectedLinks.size;
-    const badge = document.getElementById('sel-count-badge');
-    badge.innerHTML = n > 0 ? '<span class="count-badge">' + n + ' selected</span>' : '';
-    document.getElementById('links-hint').textContent = n === 0
-      ? 'Check all links that belong to this advertiser\'s ad.'
-      : n + ' link' + (n !== 1 ? 's' : '') + ' selected.';
+    document.getElementById('sel-count-badge').innerHTML = n > 0 ? '<span class="count-badge">' + n + ' selected</span>' : '';
+    document.getElementById('links-hint').textContent = n === 0 ? 'Check all links that belong to this advertiser\'s ad.' : n + ' link' + (n !== 1 ? 's' : '') + ' selected.';
   }
 
-  async function generateReport() {
-    const campaignId = document.getElementById('campaign-select').value;
-    const advertiser = document.getElementById('advertiser-name').value.trim();
+  // ── Multi-newsletter mode ────────────────────────────────────────
+  function addCampaignCheckRow(c) {
+    const container = document.getElementById('campaign-checklist');
+    const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+    const label = (d ? d + ' — ' : '') + c.name;
 
-    if (!advertiser) { showStatus('gen-status', 'Please enter the advertiser name before generating.', true); return; }
+    const wrap = document.createElement('div');
+    wrap.className = 'campaign-check-row';
+    wrap.id = 'camp-row-' + c.id;
+
+    const header = document.createElement('div');
+    header.className = 'campaign-check-header';
+    header.onclick = () => toggleCampaignCheck(c.id, header, wrap);
+
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.id = 'cb-' + c.id;
+    cb.onclick = e => { e.stopPropagation(); toggleCampaignCheck(c.id, header, wrap); };
+
+    const lbl = document.createElement('span'); lbl.className = 'campaign-check-label'; lbl.textContent = label;
+    const status = document.createElement('span'); status.className = 'campaign-link-status'; status.id = 'link-status-' + c.id; status.textContent = '';
+
+    header.appendChild(cb); header.appendChild(lbl); header.appendChild(status);
+
+    const panel = document.createElement('div');
+    panel.className = 'campaign-links-panel';
+    panel.id = 'panel-' + c.id;
+    panel.innerHTML = '<div class="status"><div class="spinner"></div>Loading links…</div>';
+
+    wrap.appendChild(header);
+    wrap.appendChild(panel);
+    container.appendChild(wrap);
+  }
+
+  async function toggleCampaignCheck(id, header, wrap) {
+    const cb = header.querySelector('input[type=checkbox]');
+    const panel = wrap.querySelector('.campaign-links-panel');
+
+    if (checkedCampaigns.has(id)) {
+      checkedCampaigns.delete(id);
+      header.classList.remove('checked');
+      cb.checked = false;
+      panel.classList.remove('open');
+    } else {
+      checkedCampaigns.add(id);
+      header.classList.add('checked');
+      cb.checked = true;
+      panel.classList.add('open');
+
+      // Load links if not already loaded
+      if (!multiCampaignLinks[id]) {
+        try {
+          const data = await acFetch('campaigns/' + id + '/links');
+          const links = (data.links || []).filter(l => l.link);
+          multiCampaignLinks[id] = { links, selectedLinks: new Set() };
+          renderMultiLinks(id, panel);
+        } catch(e) {
+          panel.innerHTML = '<div class="error-box">Could not load links: ' + e.message + '</div>';
+        }
+      }
+    }
+
+    updateMultiBadge();
+    checkMultiReadiness();
+  }
+
+  function renderMultiLinks(id, panel) {
+    const { links } = multiCampaignLinks[id];
+    panel.innerHTML = '';
+
+    if (!links.length) {
+      panel.innerHTML = '<p class="hint">No tracked links found for this campaign.</p>';
+      return;
+    }
+
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;';
+    header.innerHTML = '<label style="margin:0;font-size:12px">Select this advertiser\'s links:</label>';
+    panel.appendChild(header);
+
+    const list = document.createElement('div');
+    list.className = 'links-list';
+
+    links.forEach((l, i) => {
+      const row = document.createElement('div');
+      row.className = 'link-row';
+      row.onclick = () => toggleMultiLink(id, i, row);
+
+      const cb = document.createElement('input'); cb.type = 'checkbox';
+      cb.onclick = e => { e.stopPropagation(); toggleMultiLink(id, i, row); };
+
+      const urlSpan = document.createElement('span'); urlSpan.className = 'link-url'; urlSpan.textContent = l.link;
+      const clk = document.createElement('span'); clk.className = 'link-clicks';
+      const uc = parseInt(l.uniquelinkclicks || 0);
+      clk.textContent = uc.toLocaleString() + ' unique';
+
+      row.appendChild(cb); row.appendChild(urlSpan); row.appendChild(clk);
+      list.appendChild(row);
+    });
+
+    panel.appendChild(list);
+  }
+
+  function toggleMultiLink(campaignId, linkIdx, row) {
+    const cb = row.querySelector('input[type=checkbox]');
+    const sel = multiCampaignLinks[campaignId].selectedLinks;
+    if (sel.has(linkIdx)) { sel.delete(linkIdx); row.classList.remove('selected'); cb.checked = false; }
+    else { sel.add(linkIdx); row.classList.add('selected'); cb.checked = true; }
+
+    const n = sel.size;
+    const statusEl = document.getElementById('link-status-' + campaignId);
+    if (statusEl) statusEl.textContent = n > 0 ? n + ' link' + (n !== 1 ? 's' : '') + ' selected' : '';
+
+    checkMultiReadiness();
+  }
+
+  function updateMultiBadge() {
+    const n = checkedCampaigns.size;
+    document.getElementById('multi-check-badge').innerHTML = n > 0 ? '<span class="count-badge">' + n + ' selected</span>' : '';
+  }
+
+  function checkMultiReadiness() {
+    const hasChecked = checkedCampaigns.size > 0;
+    document.getElementById('step-name').style.display = hasChecked ? 'block' : 'none';
+    document.getElementById('rule1').style.display = hasChecked ? 'block' : 'none';
+    document.getElementById('generate-section').style.display = hasChecked ? 'block' : 'none';
+  }
+
+  // ── Generate report ──────────────────────────────────────────────
+  async function generateReport() {
+    const advertiser = document.getElementById('advertiser-name').value.trim();
+    if (!advertiser) { showStatus('gen-status', 'Please enter the advertiser name.', true); return; }
+
+    if (mode === 'promo') {
+      await generatePromoReport(advertiser);
+    } else {
+      await generateMultiReport(advertiser);
+    }
+  }
+
+  async function generatePromoReport(advertiser) {
+    const campaignId = document.getElementById('campaign-select').value;
     if (selectedLinks.size === 0) { showStatus('gen-status', 'Please select at least one link.', true); return; }
 
     document.getElementById('gen-btn').disabled = true;
@@ -656,76 +581,30 @@
     try {
       const statsData = await acFetch('campaigns/' + campaignId);
       const c = statsData.campaign || campaignData[campaignId];
-
       const totalSent = parseInt(c.send_amt || c.total_amt || 0);
       const totalOpens = parseInt(c.opens || 0);
       const uniqueOpens = parseInt(c.uniqueopens || 0);
+      const openRate = totalSent > 0 ? (uniqueOpens / totalSent * 100).toFixed(1) + '%' : 'N/A';
 
       let emailTotalClicks = 0, emailUniqueClicks = 0;
-      allLinks.forEach(l => {
-        emailTotalClicks += parseInt(l.linkclicks || 0);
-        emailUniqueClicks += parseInt(l.uniquelinkclicks || 0);
-      });
+      allLinks.forEach(l => { emailTotalClicks += parseInt(l.linkclicks || 0); emailUniqueClicks += parseInt(l.uniquelinkclicks || 0); });
 
       const selectedLinkObjs = [...selectedLinks].map(i => allLinks[i]);
-      let totalClicks = 0, uniqueClicks = 0;
-      selectedLinkObjs.forEach(l => {
-        totalClicks += parseInt(l.linkclicks || 0);
-        uniqueClicks += parseInt(l.uniquelinkclicks || 0);
-      });
-
-      const acctName = 'blockclubchi';
-      const browserUrl = 'https://' + acctName + '.activehosted.com/index.php?action=show&c=' + campaignId;
-
-      const sentDate = c.sdate
-        ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-        : 'N/A';
-
+      const browserUrl = 'https://' + AC_ACCT + '.activehosted.com/index.php?action=show&c=' + campaignId;
+      const sentDate = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
       const campaignName = (campaignData[campaignId] || c).name || 'this newsletter';
 
       const linkLines = selectedLinkObjs.map(l =>
-        '  ' + l.link + '\n' +
-        '  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() +
-        '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
+        '  ' + l.link + '\n  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() + '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
       ).join('\n\n');
 
-      const openRate = totalSent > 0 ? (uniqueOpens / totalSent * 100).toFixed(1) + '%' : 'N/A';
-
-      const report =
-`Hi [Name],
-
-Here's the performance report for your ad in our ${sentDate} newsletter.
-
-Campaign: ${campaignName}
- ${browserUrl}
-
-─────────────────────────────────────
-EMAIL PERFORMANCE
-─────────────────────────────────────
-Total recipients:   ${totalSent.toLocaleString()}
-Total opens:        ${totalOpens.toLocaleString()}
-Unique opens:       ${uniqueOpens.toLocaleString()}
-Open rate:          ${openRate}
-
-─────────────────────────────────────
-YOUR AD — LINK PERFORMANCE
-─────────────────────────────────────
-Link breakdown:
-
-${linkLines}
-
-─────────────────────────────────────
-
-Thanks for advertising with us! Let us know if you have any questions.
-
-Block Club Chicago`;
+      const report = `Hi [Name],\n\nHere's the performance report for your ad in our ${sentDate} newsletter.\n\nCampaign: ${campaignName}\nView in browser: ${browserUrl}\n\n─────────────────────────────────────\nEMAIL PERFORMANCE\n─────────────────────────────────────\nTotal recipients:   ${totalSent.toLocaleString()}\nTotal opens:        ${totalOpens.toLocaleString()}\nUnique opens:       ${uniqueOpens.toLocaleString()}\nOpen rate:          ${openRate}\n\n─────────────────────────────────────\nYOUR AD — LINK PERFORMANCE\n─────────────────────────────────────\nLink breakdown:\n\n${linkLines}\n\n─────────────────────────────────────\n\nThanks for advertising with us! Let us know if you have any questions.\n\nBlock Club Chicago`;
 
       document.getElementById('report-text').textContent = report;
       document.getElementById('report-section').style.display = 'block';
       document.getElementById('copy-confirm').classList.remove('show');
       showStatus('gen-status', '');
       document.getElementById('report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-
     } catch(e) {
       showStatus('gen-status', e.message, true);
     } finally {
@@ -733,6 +612,136 @@ Block Club Chicago`;
     }
   }
 
+  async function generateMultiReport(advertiser) {
+    const ids = [...checkedCampaigns];
+    if (ids.length === 0) { showStatus('gen-status', 'Please select at least one campaign.', true); return; }
+
+    // Validate each campaign has links selected
+    for (const id of ids) {
+      if (!multiCampaignLinks[id] || multiCampaignLinks[id].selectedLinks.size === 0) {
+        showStatus('gen-status', 'Please select at least one link for each checked campaign.', true);
+        return;
+      }
+    }
+
+    document.getElementById('gen-btn').disabled = true;
+    showStatus('gen-status', 'Fetching stats for ' + ids.length + ' campaigns…');
+
+    try {
+      const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const rows = [];
+
+      for (const id of ids) {
+        const statsData = await acFetch('campaigns/' + id);
+        const c = statsData.campaign || campaignData[id];
+        const totalSent = parseInt(c.send_amt || c.total_amt || 0);
+        const totalOpens = parseInt(c.opens || 0);
+        const uniqueOpens = parseInt(c.uniqueopens || 0);
+        const openRate = totalSent > 0 ? (uniqueOpens / totalSent * 100).toFixed(1) + '%' : 'N/A';
+        const browserUrl = 'https://' + AC_ACCT + '.activehosted.com/index.php?action=show&c=' + id;
+        const sentDate = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
+        const campaignName = (campaignData[id] || c).name || id;
+
+        const { links, selectedLinks: selLinks } = multiCampaignLinks[id];
+        const selectedLinkObjs = [...selLinks].map(i => links[i]);
+
+        rows.push({ id, campaignName, sentDate, browserUrl, totalSent, totalOpens, uniqueOpens, openRate, selectedLinkObjs });
+      }
+
+      buildMultiPDF(advertiser, rows, today);
+      showStatus('gen-status', '');
+    } catch(e) {
+      showStatus('gen-status', e.message, true);
+    } finally {
+      document.getElementById('gen-btn').disabled = false;
+    }
+  }
+
+  function buildMultiPDF(advertiser, rows, today) {
+    let sectionsHtml = rows.map(row => {
+      const linkRowsHtml = row.selectedLinkObjs.map(l => `
+        <tr>
+          <td style="padding:8px 10px;font-size:12px;word-break:break-all;border:1px solid #d8d5ce;">${l.link}</td>
+          <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${parseInt(l.uniquelinkclicks || 0).toLocaleString()}</td>
+          <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${parseInt(l.linkclicks || 0).toLocaleString()}</td>
+        </tr>`).join('');
+
+      return `
+      <div style="margin-bottom:32px;page-break-inside:avoid;">
+        <h2 style="font-family:Georgia,serif;font-size:16px;font-weight:bold;margin-bottom:4px;color:#1a1a1a;">${row.campaignName}</h2>
+        <p style="font-family:Arial,sans-serif;font-size:12px;color:#767370;margin-bottom:12px;">
+          ${row.sentDate} &nbsp;·&nbsp; <a href="${row.browserUrl}" style="color:#c8392b;">View in browser</a>
+        </p>
+
+        <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Email Overview</p>
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-family:Arial,sans-serif;">
+          <thead>
+            <tr style="background:#1a1a1a;color:#fff;">
+              <th style="padding:8px 10px;font-size:11px;text-align:left;font-weight:bold;">Recipients</th>
+              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Unique Opens</th>
+              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Total Opens</th>
+              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Open Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:8px 10px;font-size:12px;border:1px solid #d8d5ce;">${row.totalSent.toLocaleString()}</td>
+              <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${row.uniqueOpens.toLocaleString()}</td>
+              <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${row.totalOpens.toLocaleString()}</td>
+              <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${row.openRate}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Link Click Breakdown</p>
+        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;">
+          <thead>
+            <tr style="background:#1a1a1a;color:#fff;">
+              <th style="padding:8px 10px;font-size:11px;text-align:left;font-weight:bold;">Link</th>
+              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Unique Link Clicks</th>
+              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Total Link Clicks</th>
+            </tr>
+          </thead>
+          <tbody>${linkRowsHtml}</tbody>
+        </table>
+      </div>`;
+    }).join('<hr style="border:none;border-top:1px solid #d8d5ce;margin:24px 0;">');
+
+    const html = `
+      <!DOCTYPE html><html><head><meta charset="UTF-8">
+      <title>${advertiser} Campaign Report</title>
+      <style>
+        body { font-family: Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 40px; max-width: 750px; margin: 0 auto; }
+        @media print {
+          @page { margin: 0.75in; size: letter; }
+          .no-print { display: none !important; }
+          body { padding: 0; }
+        }
+      </style>
+      </head><body>
+      <div class="no-print" style="background:#f7f6f3;border-bottom:1px solid #d8d5ce;padding:12px 20px;margin:-40px -40px 32px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:Arial,sans-serif;font-size:13px;color:#767370;">Preview — check the report, then download as PDF</span>
+        <button onclick="window.print()" style="background:#c8392b;color:#fff;border:none;padding:8px 18px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;">Download PDF</button>
+      </div>
+
+      <div style="text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #1a1a1a;">
+        <h1 style="font-family:Georgia,serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1>
+        <p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">${advertiser} Campaign Promotional Email Report</p>
+      </div>
+
+      ${sectionsHtml}
+
+      <div style="margin-top:32px;padding-top:16px;border-top:1px solid #d8d5ce;text-align:right;">
+        <p style="font-family:Arial,sans-serif;font-size:11px;color:#767370;">Data pulled ${today}</p>
+      </div>
+      </body></html>`;
+
+    const win = window.open('', '_blank');
+    win.document.write(html);
+    win.document.close();
+  }
+
+  // ── Promo report copy ────────────────────────────────────────────
   function copyReport() {
     const text = document.getElementById('report-text').textContent;
     navigator.clipboard.writeText(text).then(() => {
@@ -741,21 +750,37 @@ Block Club Chicago`;
     });
   }
 
-  function resetTool() {
-    document.getElementById('report-section').style.display = 'none';
-    document.getElementById('step2').style.display = 'none';
-    document.getElementById('rule2').style.display = 'none';
-    document.getElementById('step3').style.display = 'none';
-    document.getElementById('generate-section').style.display = 'none';
-    document.getElementById('load-more-row').style.display = 'none';
+  // ── Helpers ──────────────────────────────────────────────────────
+  function hideStepsBelow(from) {
+    if (from === 'dates' || from === 'campaign') {
+      document.getElementById('step-promo-links').style.display = 'none';
+      document.getElementById('rule2').style.display = 'none';
+      document.getElementById('step-name').style.display = 'none';
+      document.getElementById('rule1').style.display = 'none';
+      document.getElementById('generate-section').style.display = 'none';
+      document.getElementById('report-section').style.display = 'none';
+    }
+  }
+
+  function resetTool(keepDates) {
+    hideStepsBelow('dates');
+    if (!keepDates) {
+      document.getElementById('date-from').value = '';
+      document.getElementById('date-to').value = '';
+    }
     document.getElementById('campaign-select').value = '';
-    document.getElementById('date-from').value = '';
-    document.getElementById('date-to').value = '';
+    document.getElementById('campaign-select').innerHTML = '<option value="">— set a date range and click Load —</option>';
+    document.getElementById('campaign-checklist').innerHTML = '';
+    document.getElementById('multi-check-badge').textContent = '';
     document.getElementById('advertiser-name').value = '';
     document.getElementById('gen-status').innerHTML = '';
     document.getElementById('campaign-status').innerHTML = '';
+    document.getElementById('report-section').style.display = 'none';
     selectedLinks.clear();
     allLinks = [];
+    multiCampaignLinks = {};
+    checkedCampaigns.clear();
+    allFetchedCampaigns = [];
   }
 </script>
 </body>
