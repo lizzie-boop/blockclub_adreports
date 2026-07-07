@@ -592,7 +592,7 @@
       allLinks.forEach(l => { emailTotalClicks += parseInt(l.linkclicks || 0); emailUniqueClicks += parseInt(l.uniquelinkclicks || 0); });
 
       const selectedLinkObjs = [...selectedLinks].map(i => allLinks[i]);
-      const browserUrl = 'https://' + AC_ACCT + '.activehosted.com/index.php?action=show&c=' + campaignId;
+      const screenshot = c.screenshot ? 'https:' + c.screenshot : null;
       const sentDate = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
       const campaignName = (campaignData[campaignId] || c).name || 'this newsletter';
 
@@ -600,7 +600,7 @@
         '  ' + l.link + '\n  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() + '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
       ).join('\n\n');
 
-      const report = `Hi [Name],\n\nHere's the performance report for your ad in our ${sentDate} newsletter.\n\nCampaign: ${campaignName}\nView in browser: ${browserUrl}\n\n─────────────────────────────────────\nEMAIL PERFORMANCE\n─────────────────────────────────────\nTotal recipients:   ${totalSent.toLocaleString()}\nTotal opens:        ${totalOpens.toLocaleString()}\nUnique opens:       ${uniqueOpens.toLocaleString()}\nOpen rate:          ${openRate}\n\n─────────────────────────────────────\nYOUR AD — LINK PERFORMANCE\n─────────────────────────────────────\nLink breakdown:\n\n${linkLines}\n\n─────────────────────────────────────\n\nThanks for advertising with us! Let us know if you have any questions.\n\nBlock Club Chicago`;
+      const report = `Hi [Name],\n\nHere's the performance report for your ad in our ${sentDate} newsletter.\n\nCampaign: ${campaignName}\nEmail screenshot: ${screenshot || '[not available]'}\n\n─────────────────────────────────────\nEMAIL PERFORMANCE\n─────────────────────────────────────\nTotal recipients:   ${totalSent.toLocaleString()}\nTotal opens:        ${totalOpens.toLocaleString()}\nUnique opens:       ${uniqueOpens.toLocaleString()}\nOpen rate:          ${openRate}\n\n─────────────────────────────────────\nYOUR AD — LINK PERFORMANCE\n─────────────────────────────────────\nLink breakdown:\n\n${linkLines}\n\n─────────────────────────────────────\n\nThanks for advertising with us! Let us know if you have any questions.\n\nBlock Club Chicago`;
 
       document.getElementById('report-text').textContent = report;
       document.getElementById('report-section').style.display = 'block';
@@ -640,14 +640,14 @@
         const totalOpens = parseInt(c.opens || 0);
         const uniqueOpens = parseInt(c.uniqueopens || 0);
         const openRate = totalSent > 0 ? (uniqueOpens / totalSent * 100).toFixed(1) + '%' : 'N/A';
-        const browserUrl = 'https://' + AC_ACCT + '.activehosted.com/index.php?action=show&c=' + id;
+        const screenshot = c.screenshot ? 'https:' + c.screenshot : null;
         const sentDate = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
         const campaignName = (campaignData[id] || c).name || id;
 
         const { links, selectedLinks: selLinks } = multiCampaignLinks[id];
         const selectedLinkObjs = [...selLinks].map(i => links[i]);
 
-        rows.push({ id, campaignName, sentDate, browserUrl, totalSent, totalOpens, uniqueOpens, openRate, selectedLinkObjs });
+        rows.push({ id, campaignName, sentDate, screenshot, totalSent, totalOpens, uniqueOpens, openRate, selectedLinkObjs });
       }
 
       buildMultiPDF(advertiser, rows, today);
@@ -672,7 +672,7 @@
       <div style="margin-bottom:32px;page-break-inside:avoid;">
         <h2 style="font-family:Georgia,serif;font-size:16px;font-weight:bold;margin-bottom:4px;color:#1a1a1a;">${row.campaignName}</h2>
         <p style="font-family:Arial,sans-serif;font-size:12px;color:#767370;margin-bottom:12px;">
-          ${row.sentDate} &nbsp;·&nbsp; <a href="${row.browserUrl}" style="color:#c8392b;">View in browser</a>
+          ${row.sentDate}${row.screenshot ? ' &nbsp;·&nbsp; <a href="' + row.screenshot + '" style="color:#c8392b;">View email screenshot</a>' : ''}
         </p>
 
         <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Email Overview</p>
