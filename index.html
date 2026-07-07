@@ -154,28 +154,31 @@
     <button class="mode-btn" id="mode-multi" onclick="setMode('multi')">Multi-Newsletter Campaign</button>
   </div>
 
-  <!-- Shared: date range + load -->
+  <!-- Shared: search + optional date range + load -->
   <div class="step" id="step-dates">
     <div class="step-header">
       <span class="step-num">Step 1</span>
-      <span class="step-title">Select campaign(s)</span>
+      <span class="step-title">Search for campaign(s)</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+      <input type="text" id="campaign-search" placeholder="Search by campaign name (e.g. Citywide, Arts &amp; Culture)" style="flex:1" onkeydown="if(event.key==='Enter')loadCampaigns()" />
+      <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Search</button>
     </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <div style="display:flex;align-items:center;gap:6px;flex:1">
-        <label style="margin:0;white-space:nowrap">From</label>
+        <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">From (optional)</label>
         <input type="date" id="date-from" />
       </div>
       <div style="display:flex;align-items:center;gap:6px;flex:1">
-        <label style="margin:0;white-space:nowrap">To</label>
+        <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">To (optional)</label>
         <input type="date" id="date-to" />
       </div>
-      <button class="btn" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Load campaigns</button>
     </div>
 
     <!-- Promo: single dropdown -->
     <div id="promo-select-wrap">
       <select id="campaign-select" style="width:100%">
-        <option value="">— set a date range and click Load —</option>
+        <option value="">— search for a campaign above —</option>
       </select>
     </div>
 
@@ -288,21 +291,20 @@
       : '<div class="status"><div class="spinner"></div>' + msg + '</div>';
   }
 
-  // ── Load campaigns ───────────────────────────────────────────────
+  // ── Load campaigns (search-based) ──────────────────────────────
   async function loadCampaigns() {
+    const keyword = document.getElementById('campaign-search').value.trim();
     const from = document.getElementById('date-from').value;
     const to = document.getElementById('date-to').value;
-    if (!from || !to) { showStatus('campaign-status', 'Please select a start and end date.', true); return; }
+
+    if (!keyword) { showStatus('campaign-status', 'Please enter a campaign name to search.', true); return; }
 
     const btn = document.getElementById('load-btn');
     btn.disabled = true;
-    campaignOffset = 0;
-    allFetchedCampaigns = [];
-    currentFromTs = from;
-    currentToTs = to;
     campaignData = {};
     multiCampaignLinks = {};
     checkedCampaigns.clear();
+    allFetchedCampaigns = [];
 
     if (mode === 'promo') {
       const sel = document.getElementById('campaign-select');
@@ -313,52 +315,52 @@
     }
 
     hideStepsBelow('dates');
-    showStatus('campaign-status', 'Searching campaigns…');
+    showStatus('campaign-status', 'Searching…');
 
     try {
-      while (true) {
-        const path = 'campaigns?limit=' + CAMPAIGN_PAGE_SIZE + '&offset=' + campaignOffset + '&orders[sdate]=DESC&filters[status]=5';
-        const data = await acFetch(path);
-        const campaigns = data.campaigns || [];
-        if (!campaigns.length) break;
+      // Fetch up to 200 results matching the keyword, sorted newest first
+      const path = 'campaigns?limit=200&orders[sdate]=DESC&filters[status]=5&search=' + encodeURIComponent(keyword);
+      const data = await acFetch(path);
+      let campaigns = data.campaigns || [];
 
-        const filtered = campaigns.filter(c => {
+      // Optional date filter client-side
+      if (from || to) {
+        campaigns = campaigns.filter(c => {
           if (!c.sdate) return false;
           const cDate = c.sdate.substring(0, 10);
-          return cDate >= currentFromTs && cDate <= currentToTs;
+          if (from && cDate < from) return false;
+          if (to && cDate > to) return false;
+          return true;
         });
-
-        filtered.forEach(c => {
-          campaignData[c.id] = c;
-          allFetchedCampaigns.push(c);
-          if (mode === 'promo') {
-            const opt = document.createElement('option');
-            opt.value = c.id;
-            const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-            opt.textContent = (d ? d + ' — ' : '') + c.name;
-            document.getElementById('campaign-select').appendChild(opt);
-          } else {
-            addCampaignCheckRow(c);
-          }
-        });
-
-        campaignOffset += campaigns.length;
-        const oldestDate = campaigns[campaigns.length - 1].sdate.substring(0, 10);
-        if (allFetchedCampaigns.length > 0) showStatus('campaign-status', allFetchedCampaigns.length + ' found so far, still searching…');
-        if (oldestDate < currentFromTs || campaigns.length < CAMPAIGN_PAGE_SIZE) break;
       }
+
+      if (!campaigns.length) {
+        showStatus('campaign-status', 'No sent campaigns found matching "' + keyword + '"' + (from || to ? ' in that date range' : '') + '.', true);
+        return;
+      }
+
+      campaigns.forEach(c => {
+        campaignData[c.id] = c;
+        allFetchedCampaigns.push(c);
+        if (mode === 'promo') {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+          opt.textContent = (d ? d + ' — ' : '') + c.name;
+          document.getElementById('campaign-select').appendChild(opt);
+        } else {
+          addCampaignCheckRow(c);
+        }
+      });
 
       if (mode === 'promo') {
         document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value);
       }
 
-      const total = allFetchedCampaigns.length;
-      if (total === 0) {
-        showStatus('campaign-status', 'No sent campaigns found in that date range.', true);
-      } else {
-        showStatus('campaign-status', total + ' campaign' + (total !== 1 ? 's' : '') + ' found.');
-        if (mode === 'multi') checkMultiReadiness();
-      }
+      const total = campaigns.length;
+      showStatus('campaign-status', total + ' campaign' + (total !== 1 ? 's' : '') + ' found.');
+      if (mode === 'multi') checkMultiReadiness();
+
     } catch(e) {
       showStatus('campaign-status', e.message, true);
     } finally {
@@ -366,7 +368,7 @@
     }
   }
 
-  // ── Promo mode ───────────────────────────────────────────────────
+    // ── Promo mode ───────────────────────────────────────────────────
   async function onPromoSelect(id) {
     if (!id) return;
     hideStepsBelow('campaign');
@@ -768,8 +770,9 @@
       document.getElementById('date-from').value = '';
       document.getElementById('date-to').value = '';
     }
+    document.getElementById('campaign-search').value = '';
     document.getElementById('campaign-select').value = '';
-    document.getElementById('campaign-select').innerHTML = '<option value="">— set a date range and click Load —</option>';
+    document.getElementById('campaign-select').innerHTML = '<option value="">— search for a campaign above —</option>';
     document.getElementById('campaign-checklist').innerHTML = '';
     document.getElementById('multi-check-badge').textContent = '';
     document.getElementById('advertiser-name').value = '';
