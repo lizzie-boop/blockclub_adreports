@@ -319,7 +319,7 @@
 
     try {
       // Fetch up to 200 results matching the keyword, sorted newest first
-      const path = 'campaigns?limit=200&orders[sdate]=DESC&filters[status]=5&search=' + encodeURIComponent(keyword);
+const path = 'campaigns?limit=500&orders[sdate]=DESC&filters[status]=5&search=' + encodeURIComponent(keyword);
       const data = await acFetch(path);
       let campaigns = data.campaigns || [];
 
