@@ -274,23 +274,16 @@
   }
 
   // ── API ──────────────────────────────────────────────────────────
-  async function acFetch(path) {
-    const res = await fetch('/.netlify/functions/ac?path=' + encodeURIComponent(path));
+async function acFetch(path, search) {
+    let url = '/.netlify/functions/ac?path=' + encodeURIComponent(path);
+    if (search) url += '&search=' + encodeURIComponent(search);
+    const res = await fetch(url);
     if (!res.ok) {
       const t = await res.text().catch(() => '');
       throw new Error('Error fetching data (' + res.status + '). ' + t.slice(0, 200));
     }
     return res.json();
   }
-
-  function showStatus(id, msg, isError) {
-    const el = document.getElementById(id);
-    if (!msg) { el.innerHTML = ''; return; }
-    el.innerHTML = isError
-      ? '<div class="error-box">' + msg + '</div>'
-      : '<div class="status"><div class="spinner"></div>' + msg + '</div>';
-  }
-
   // ── Load campaigns (search-based) ──────────────────────────────
   async function loadCampaigns() {
     const keyword = document.getElementById('campaign-search').value.trim();
