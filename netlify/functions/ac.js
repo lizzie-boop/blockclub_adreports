@@ -10,7 +10,6 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }, body: JSON.stringify({ error: 'Missing path' }) };
   }
 
-  // Build the AC URL, appending search separately to avoid double-encoding
   let acPath = AC_URL + '/api/3/' + path;
   if (search) {
     acPath += (path.includes('?') ? '&' : '?') + 'search=' + encodeURIComponent(search);
