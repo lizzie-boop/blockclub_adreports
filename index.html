@@ -329,11 +329,13 @@
         const batch = data.campaigns || [];
         if (!batch.length) break;
 
-        // Filter to date range
+        // Filter to date range AND keyword match in campaign name
+        const kwLower = keyword.toLowerCase();
         const filtered = batch.filter(c => {
           if (!c.sdate) return false;
           const cDate = c.sdate.substring(0, 10);
-          return cDate >= from && cDate <= to;
+          if (cDate < from || cDate > to) return false;
+          return c.name && c.name.toLowerCase().includes(kwLower);
         });
 
         filtered.forEach(c => {
@@ -351,12 +353,14 @@
         });
 
         offset += batch.length;
+
+        // Find oldest date in this batch regardless of keyword match
         const oldestDate = batch[batch.length - 1].sdate.substring(0, 10);
 
         // Update status while searching
         showStatus('campaign-status', 'Searching… ' + (allFetchedCampaigns.length > 0 ? allFetchedCampaigns.length + ' found so far' : ''));
 
-        // Stop once we've gone past the from date or exhausted results
+        // Stop once oldest result is before from date, or no more pages
         if (oldestDate < from || batch.length < PAGE) break;
       }
 
