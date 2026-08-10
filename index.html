@@ -6,65 +6,31 @@
 <title>Block Club Chicago — Ad Performance Report</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --black: #1a1a1a;
-    --offwhite: #f7f6f3;
-    --rule: #d8d5ce;
-    --accent: #c8392b;
-    --muted: #767370;
-    --success: #1e7e40;
-    --error-bg: #fdf1f0;
-    --error: #c8392b;
-    --purple: #534AB7;
-    --purple-light: #EEEDFE;
-  }
-
+  :root { --black: #1a1a1a; --offwhite: #f7f6f3; --rule: #d8d5ce; --accent: #c8392b; --muted: #767370; --success: #1e7e40; --error-bg: #fdf1f0; --error: #c8392b; --purple: #534AB7; --purple-light: #EEEDFE; }
   body { font-family: 'Georgia', serif; background: var(--offwhite); color: var(--black); min-height: 100vh; }
-
-  header {
-    background: var(--black); padding: 18px 40px; display: flex;
-    align-items: center; gap: 16px; border-bottom: 3px solid var(--accent);
-  }
+  header { background: var(--black); padding: 18px 40px; display: flex; align-items: center; gap: 16px; border-bottom: 3px solid var(--accent); }
   .masthead { font-family: 'Georgia', serif; font-size: 20px; font-weight: bold; color: #fff; letter-spacing: -0.01em; }
   .masthead span { color: var(--accent); }
   .tool-label { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: #888; border-left: 1px solid #444; padding-left: 16px; margin-left: 4px; }
-
   .container { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
   .page-title { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 6px; }
   h1 { font-family: 'Georgia', serif; font-size: 28px; font-weight: bold; color: var(--black); line-height: 1.2; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
-
-  .mode-toggle { display: flex; gap: 0; margin-bottom: 32px; border: 1.5px solid var(--black); border-radius: 4px; overflow: hidden; }
+  .mode-toggle { display: flex; margin-bottom: 32px; border: 1.5px solid var(--black); border-radius: 4px; overflow: hidden; }
   .mode-btn { flex: 1; padding: 10px 16px; font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; border: none; background: #fff; color: var(--muted); cursor: pointer; transition: background 0.12s, color 0.12s; }
   .mode-btn:first-child { border-right: 1.5px solid var(--black); }
   .mode-btn.active { background: var(--black); color: #fff; }
-
   .step { margin-bottom: 28px; }
   .step-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
   .step-num { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); flex-shrink: 0; }
   .step-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; color: var(--black); }
-
   label { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--muted); display: block; margin-bottom: 6px; }
-
-  input[type="text"], select {
-    width: 100%; padding: 10px 12px; font-size: 15px; font-family: 'Arial', sans-serif;
-    border: 1px solid var(--rule); border-radius: 4px; background: #fff; color: var(--black);
-    appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s;
-  }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23767370' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; cursor: pointer;
-  }
+  input[type="text"], select { width: 100%; padding: 10px 12px; font-size: 15px; font-family: 'Arial', sans-serif; border: 1px solid var(--rule); border-radius: 4px; background: #fff; color: var(--black); appearance: none; -webkit-appearance: none; outline: none; transition: border-color 0.15s; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23767370' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; cursor: pointer; }
   input[type="text"]:focus, select:focus { border-color: var(--black); }
-  input[type="date"] {
-    padding: 10px 12px; font-size: 15px; font-family: 'Arial', sans-serif;
-    border: 1px solid var(--rule); border-radius: 4px; background: #fff; color: var(--black); outline: none; width: 100%;
-  }
+  input[type="date"] { padding: 10px 12px; font-size: 15px; font-family: 'Arial', sans-serif; border: 1px solid var(--rule); border-radius: 4px; background: #fff; color: var(--black); outline: none; width: 100%; }
   input[type="date"]:focus { border-color: var(--black); }
-
   .hint { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
   .rule { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
-
   .links-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .text-btn { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--accent); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 0; }
   .links-list { border: 1px solid var(--rule); border-radius: 4px; background: #fff; max-height: 280px; overflow-y: auto; }
@@ -77,7 +43,6 @@
   .link-row.selected .link-url { color: #3C3489; }
   .link-clicks { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--muted); white-space: nowrap; flex-shrink: 0; padding-top: 2px; }
   .link-row.selected .link-clicks { color: var(--purple); }
-
   .campaign-checklist { border: 1px solid var(--rule); border-radius: 4px; background: #fff; max-height: 400px; overflow-y: auto; }
   .campaign-check-row { border-bottom: 1px solid var(--rule); }
   .campaign-check-row:last-child { border-bottom: none; }
@@ -92,7 +57,6 @@
   .campaign-links-panel { display: none; padding: 8px 12px 12px 36px; background: #faf9f7; border-top: 1px solid var(--rule); }
   .campaign-links-panel.open { display: block; }
   .campaign-links-panel .links-list { max-height: 180px; }
-
   .btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; border-radius: 4px; border: 1.5px solid var(--black); background: #fff; color: var(--black); cursor: pointer; transition: background 0.12s; text-transform: uppercase; letter-spacing: 0.04em; }
   .btn:hover { background: var(--offwhite); }
   .btn:active { transform: scale(0.98); }
@@ -100,12 +64,10 @@
   .btn-primary:hover { background: #a82e23; border-color: #a82e23; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
-
   .status { display: flex; align-items: center; gap: 8px; font-family: 'Arial', sans-serif; font-size: 13px; color: var(--muted); margin-top: 10px; }
   .spinner { width: 14px; height: 14px; border: 2px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .error-box { font-family: 'Arial', sans-serif; font-size: 13px; padding: 10px 14px; background: var(--error-bg); border-left: 3px solid var(--error); color: var(--error); border-radius: 0 4px 4px 0; margin-top: 10px; line-height: 1.5; }
-
   .report-section { margin-top: 36px; border-top: 3px solid var(--black); padding-top: 24px; }
   .report-eyebrow { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
   .report-box { background: #fff; border: 1px solid var(--rule); border-radius: 4px; padding: 20px 24px; margin-bottom: 14px; }
@@ -113,37 +75,28 @@
   .copy-confirm { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--success); display: none; align-items: center; gap: 6px; margin-top: 8px; }
   .copy-confirm.show { display: flex; }
   .count-badge { display: inline-block; font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; background: var(--accent); color: #fff; border-radius: 10px; padding: 1px 8px; margin-left: 6px; }
-
-  @media (max-width: 500px) {
-    header { padding: 14px 16px; }
-    .container { padding: 28px 16px 60px; }
-    h1 { font-size: 22px; }
-  }
+  @media (max-width: 500px) { header { padding: 14px 16px; } .container { padding: 28px 16px 60px; } h1 { font-size: 22px; } }
 </style>
 </head>
 <body>
-
 <header>
   <div class="masthead">Block Club <span>Chicago</span></div>
   <div class="tool-label">Ad Report Generator</div>
 </header>
-
 <div class="container">
   <p class="page-title">Advertiser reporting tool</p>
   <h1>Generate an ad performance report</h1>
-
   <div class="mode-toggle">
     <button class="mode-btn active" id="mode-promo" onclick="setMode('promo')">Promo Email</button>
     <button class="mode-btn" id="mode-multi" onclick="setMode('multi')">Multi-Newsletter Campaign</button>
   </div>
-
   <div class="step" id="step-dates">
     <div class="step-header">
       <span class="step-num">Step 1</span>
-      <span class="step-title">Search for campaign(s)</span>
+      <span class="step-title" id="step1-title">Search for a campaign</span>
     </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
-      <input type="text" id="campaign-search" placeholder="Search by newsletter name (e.g. Citywide, Arts &amp; Culture)" style="flex:1" onkeydown="if(event.key==='Enter')loadCampaigns()" />
+      <input type="text" id="campaign-search" placeholder="Newsletter name (e.g. Citywide, Arts &amp; Culture)" style="flex:1" onkeydown="if(event.key==='Enter')loadCampaigns()" />
       <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Search</button>
     </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
@@ -156,26 +109,24 @@
         <input type="date" id="date-to" />
       </div>
     </div>
-
     <div id="promo-select-wrap">
       <select id="campaign-select" style="width:100%">
         <option value="">— search for a campaign above —</option>
       </select>
     </div>
-
     <div id="multi-checklist-wrap" style="display:none">
       <div class="links-header" style="margin-bottom:8px">
-        <label style="margin:0" id="multi-check-hint">Check all campaigns that belong to this advertiser's buy.</label>
-        <span id="multi-check-badge"></span>
+        <label style="margin:0" id="multi-check-hint">Search and check campaigns to add them to this report.</label>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <span id="multi-check-badge"></span>
+          <button class="text-btn" onclick="clearChecklist()" id="clear-btn" style="display:none">Clear all</button>
+        </div>
       </div>
       <div class="campaign-checklist" id="campaign-checklist"></div>
     </div>
-
     <div id="campaign-status"></div>
   </div>
-
   <hr class="rule" id="rule1" style="display:none">
-
   <div class="step" id="step-promo-links" style="display:none">
     <div class="step-header">
       <span class="step-num">Step 2</span>
@@ -187,9 +138,7 @@
     </div>
     <div class="links-list" id="links-list"></div>
   </div>
-
   <hr class="rule" id="rule2" style="display:none">
-
   <div class="step" id="step-name" style="display:none">
     <div class="step-header">
       <span class="step-num" id="name-step-num">Step 3</span>
@@ -198,14 +147,12 @@
     <input type="text" id="advertiser-name" placeholder="e.g. Art Institute of Chicago" />
     <p class="hint">Used in the report title.</p>
   </div>
-
   <div id="generate-section" style="display:none">
     <div class="btn-row">
       <button class="btn btn-primary" id="gen-btn" onclick="generateReport()">Generate report</button>
     </div>
     <div id="gen-status"></div>
   </div>
-
   <div class="report-section" id="report-section" style="display:none">
     <p class="report-eyebrow">Report — ready to paste into your email</p>
     <div class="report-box"><pre id="report-text"></pre></div>
@@ -216,7 +163,6 @@
     <div class="copy-confirm" id="copy-confirm">&#10003; Copied to clipboard</div>
   </div>
 </div>
-
 <script>
   let mode = 'promo';
   let campaignData = {};
@@ -225,30 +171,20 @@
   let allSelected = false;
   let multiCampaignLinks = {};
   let checkedCampaigns = new Set();
-  let allFetchedCampaigns = [];
+  let addedCampaignIds = new Set();
 
-  // ── API ──────────────────────────────────────────────────────────
-  // search is passed as a separate param to avoid double-encoding issues
-  async function acFetch(path, search) {
-    let url = '/.netlify/functions/ac?path=' + encodeURIComponent(path);
-    if (search) url += '&search=' + encodeURIComponent(search);
-    const res = await fetch(url);
-    if (!res.ok) {
-      const t = await res.text().catch(() => '');
-      throw new Error('Error fetching data (' + res.status + '). ' + t.slice(0, 200));
-    }
+  async function acFetch(path) {
+    const res = await fetch('/.netlify/functions/ac?path=' + encodeURIComponent(path));
+    if (!res.ok) { const t = await res.text().catch(() => ''); throw new Error('Error fetching data (' + res.status + '). ' + t.slice(0, 200)); }
     return res.json();
   }
 
   function showStatus(id, msg, isError) {
     const el = document.getElementById(id);
     if (!msg) { el.innerHTML = ''; return; }
-    el.innerHTML = isError
-      ? '<div class="error-box">' + msg + '</div>'
-      : '<div class="status"><div class="spinner"></div>' + msg + '</div>';
+    el.innerHTML = isError ? '<div class="error-box">' + msg + '</div>' : '<div class="status"><div class="spinner"></div>' + msg + '</div>';
   }
 
-  // ── Mode switching ────────────────────────────────────────────────
   function setMode(m) {
     mode = m;
     document.getElementById('mode-promo').classList.toggle('active', m === 'promo');
@@ -256,48 +192,39 @@
     document.getElementById('promo-select-wrap').style.display = m === 'promo' ? 'block' : 'none';
     document.getElementById('multi-checklist-wrap').style.display = m === 'multi' ? 'block' : 'none';
     document.getElementById('name-step-num').textContent = m === 'promo' ? 'Step 3' : 'Step 2';
+    document.getElementById('step1-title').textContent = m === 'promo' ? 'Search for a campaign' : 'Search and select campaigns';
     resetTool(true);
   }
 
-  // ── Load campaigns ────────────────────────────────────────────────
   async function loadCampaigns() {
     const keyword = document.getElementById('campaign-search').value.trim();
     const from = document.getElementById('date-from').value;
     const to = document.getElementById('date-to').value;
-
-    if (!keyword) { showStatus('campaign-status', 'Please enter a campaign name to search.', true); return; }
-    if (!from || !to) { showStatus('campaign-status', 'Please enter a date range — this is required to search historical campaigns.', true); return; }
+    if (!keyword) { showStatus('campaign-status', 'Please enter a newsletter name to search.', true); return; }
+    if (!from || !to) { showStatus('campaign-status', 'Please enter a date range.', true); return; }
 
     const btn = document.getElementById('load-btn');
     btn.disabled = true;
-    campaignData = {};
-    multiCampaignLinks = {};
-    checkedCampaigns.clear();
-    allFetchedCampaigns = [];
 
     if (mode === 'promo') {
+      campaignData = {};
       document.getElementById('campaign-select').innerHTML = '<option value="">— choose a campaign —</option>';
-    } else {
-      document.getElementById('campaign-checklist').innerHTML = '';
-      document.getElementById('multi-check-badge').textContent = '';
+      hideStepsBelow();
     }
 
-    hideStepsBelow('dates');
     showStatus('campaign-status', 'Searching…');
 
     try {
       const PAGE = 100;
       let offset = 0;
+      let found = 0;
+      const kwLower = keyword.toLowerCase();
 
       while (true) {
-        const path = 'campaigns?limit=' + PAGE + '&offset=' + offset + '&orders[sdate]=DESC&filters[status]=5';
-        // keyword passed separately — Netlify function appends it cleanly to the AC request
-        const data = await acFetch(path, keyword);
+        const data = await acFetch('campaigns?limit=' + PAGE + '&offset=' + offset + '&orders[sdate]=DESC&filters[status]=5');
         const batch = data.campaigns || [];
         if (!batch.length) break;
 
-        // Filter to date range and name match client-side
-        const kwLower = keyword.toLowerCase();
         const filtered = batch.filter(c => {
           if (!c.sdate || !c.name) return false;
           const cDate = c.sdate.substring(0, 10);
@@ -307,42 +234,38 @@
 
         filtered.forEach(c => {
           campaignData[c.id] = c;
-          allFetchedCampaigns.push(c);
           if (mode === 'promo') {
             const opt = document.createElement('option');
             opt.value = c.id;
             const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
             opt.textContent = (d ? d + ' — ' : '') + c.name;
             document.getElementById('campaign-select').appendChild(opt);
+            found++;
           } else {
-            addCampaignCheckRow(c);
+            if (!addedCampaignIds.has(c.id)) {
+              addedCampaignIds.add(c.id);
+              addCampaignCheckRow(c);
+              found++;
+            }
           }
         });
 
         offset += batch.length;
         const oldestDate = batch[batch.length - 1].sdate.substring(0, 10);
-
-        showStatus('campaign-status', 'Searching… ' + (allFetchedCampaigns.length > 0 ? allFetchedCampaigns.length + ' found so far' : ''));
-
-        // Stop once oldest result is before from date, or no more pages
+        showStatus('campaign-status', 'Searching…' + (found > 0 ? ' ' + found + ' found so far' : ''));
         if (oldestDate < from || batch.length < PAGE) break;
-
-        // Delay to avoid rate limiting
         await new Promise(r => setTimeout(r, 300));
       }
 
       if (mode === 'promo') {
-        document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value);
+        if (found === 0) { showStatus('campaign-status', 'No campaigns found matching "' + keyword + '" in that date range.', true); }
+        else { document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value); showStatus('campaign-status', found + ' campaign' + (found !== 1 ? 's' : '') + ' found.'); }
+      } else {
+        if (found === 0) { showStatus('campaign-status', 'No new campaigns found matching "' + keyword + '" in that date range.', true); }
+        else { showStatus('campaign-status', found + ' campaign' + (found !== 1 ? 's' : '') + ' added. ' + addedCampaignIds.size + ' total in list.'); }
+        updateMultiBadge();
+        checkMultiReadiness();
       }
-
-      const total = allFetchedCampaigns.length;
-      if (!total) {
-        showStatus('campaign-status', 'No campaigns found matching "' + keyword + '" between ' + from + ' and ' + to + '.', true);
-        return;
-      }
-      showStatus('campaign-status', total + ' campaign' + (total !== 1 ? 's' : '') + ' found.');
-      if (mode === 'multi') checkMultiReadiness();
-
     } catch(e) {
       showStatus('campaign-status', e.message, true);
     } finally {
@@ -350,10 +273,9 @@
     }
   }
 
-  // ── Promo mode ────────────────────────────────────────────────────
   async function onPromoSelect(id) {
     if (!id) return;
-    hideStepsBelow('campaign');
+    hideStepsBelow();
     showStatus('campaign-status', 'Loading links for this campaign…');
     try {
       const data = await acFetch('campaigns/' + id + '/links');
@@ -366,9 +288,7 @@
       document.getElementById('step-name').style.display = 'block';
       document.getElementById('rule1').style.display = 'block';
       document.getElementById('generate-section').style.display = 'block';
-    } catch(e) {
-      showStatus('campaign-status', e.message, true);
-    }
+    } catch(e) { showStatus('campaign-status', e.message, true); }
   }
 
   function renderPromoLinks() {
@@ -379,11 +299,8 @@
     document.getElementById('toggle-all-btn').textContent = 'Select all';
     updatePromoBadge();
     allLinks.forEach((l, i) => {
-      const row = document.createElement('div');
-      row.className = 'link-row';
-      row.onclick = () => togglePromoLink(i, row);
-      const cb = document.createElement('input'); cb.type = 'checkbox';
-      cb.onclick = e => { e.stopPropagation(); togglePromoLink(i, row); };
+      const row = document.createElement('div'); row.className = 'link-row'; row.onclick = () => togglePromoLink(i, row);
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.onclick = e => { e.stopPropagation(); togglePromoLink(i, row); };
       const urlSpan = document.createElement('span'); urlSpan.className = 'link-url'; urlSpan.textContent = l.link;
       const clk = document.createElement('span'); clk.className = 'link-clicks';
       const uc = parseInt(l.uniquelinkclicks || 0);
@@ -414,106 +331,60 @@
   function updatePromoBadge() {
     const n = selectedLinks.size;
     document.getElementById('sel-count-badge').innerHTML = n > 0 ? '<span class="count-badge">' + n + ' selected</span>' : '';
-    document.getElementById('links-hint').textContent = n === 0 ? 'Check all links that belong to this advertiser\'s ad.' : n + ' link' + (n !== 1 ? 's' : '') + ' selected.';
+    document.getElementById('links-hint').textContent = n === 0 ? "Check all links that belong to this advertiser's ad." : n + ' link' + (n !== 1 ? 's' : '') + ' selected.';
   }
 
-  // ── Multi-newsletter mode ─────────────────────────────────────────
   function addCampaignCheckRow(c) {
     const container = document.getElementById('campaign-checklist');
     const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
     const label = (d ? d + ' — ' : '') + c.name;
-
-    const wrap = document.createElement('div');
-    wrap.className = 'campaign-check-row';
-    wrap.id = 'camp-row-' + c.id;
-
-    const header = document.createElement('div');
-    header.className = 'campaign-check-header';
-    header.onclick = () => toggleCampaignCheck(c.id, header, wrap);
-
-    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.id = 'cb-' + c.id;
-    cb.onclick = e => { e.stopPropagation(); toggleCampaignCheck(c.id, header, wrap); };
-
+    const wrap = document.createElement('div'); wrap.className = 'campaign-check-row'; wrap.id = 'camp-row-' + c.id;
+    const header = document.createElement('div'); header.className = 'campaign-check-header'; header.onclick = () => toggleCampaignCheck(c.id, header, wrap);
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.onclick = e => { e.stopPropagation(); toggleCampaignCheck(c.id, header, wrap); };
     const lbl = document.createElement('span'); lbl.className = 'campaign-check-label'; lbl.textContent = label;
-    const status = document.createElement('span'); status.className = 'campaign-link-status'; status.id = 'link-status-' + c.id; status.textContent = '';
-
+    const status = document.createElement('span'); status.className = 'campaign-link-status'; status.id = 'link-status-' + c.id;
     header.appendChild(cb); header.appendChild(lbl); header.appendChild(status);
-
-    const panel = document.createElement('div');
-    panel.className = 'campaign-links-panel';
-    panel.id = 'panel-' + c.id;
+    const panel = document.createElement('div'); panel.className = 'campaign-links-panel'; panel.id = 'panel-' + c.id;
     panel.innerHTML = '<div class="status"><div class="spinner"></div>Loading links…</div>';
-
-    wrap.appendChild(header);
-    wrap.appendChild(panel);
+    wrap.appendChild(header); wrap.appendChild(panel);
     container.appendChild(wrap);
   }
 
   async function toggleCampaignCheck(id, header, wrap) {
     const cb = header.querySelector('input[type=checkbox]');
     const panel = wrap.querySelector('.campaign-links-panel');
-
     if (checkedCampaigns.has(id)) {
-      checkedCampaigns.delete(id);
-      header.classList.remove('checked');
-      cb.checked = false;
-      panel.classList.remove('open');
+      checkedCampaigns.delete(id); header.classList.remove('checked'); cb.checked = false; panel.classList.remove('open');
     } else {
-      checkedCampaigns.add(id);
-      header.classList.add('checked');
-      cb.checked = true;
-      panel.classList.add('open');
-
+      checkedCampaigns.add(id); header.classList.add('checked'); cb.checked = true; panel.classList.add('open');
       if (!multiCampaignLinks[id]) {
         try {
           const data = await acFetch('campaigns/' + id + '/links');
           const links = (data.links || []).filter(l => l.link);
           multiCampaignLinks[id] = { links, selectedLinks: new Set() };
           renderMultiLinks(id, panel);
-        } catch(e) {
-          panel.innerHTML = '<div class="error-box">Could not load links: ' + e.message + '</div>';
-        }
+        } catch(e) { panel.innerHTML = '<div class="error-box">Could not load links: ' + e.message + '</div>'; }
       }
     }
-
-    updateMultiBadge();
-    checkMultiReadiness();
+    updateMultiBadge(); checkMultiReadiness();
   }
 
   function renderMultiLinks(id, panel) {
     const { links } = multiCampaignLinks[id];
     panel.innerHTML = '';
-
-    if (!links.length) {
-      panel.innerHTML = '<p class="hint">No tracked links found for this campaign.</p>';
-      return;
-    }
-
-    const header = document.createElement('div');
-    header.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;';
-    header.innerHTML = '<label style="margin:0;font-size:12px">Select this advertiser\'s links:</label>';
-    panel.appendChild(header);
-
-    const list = document.createElement('div');
-    list.className = 'links-list';
-
+    if (!links.length) { panel.innerHTML = '<p class="hint">No tracked links found.</p>'; return; }
+    panel.innerHTML = '<label style="margin:0 0 6px;font-size:12px;display:block">Select this advertiser\'s links:</label>';
+    const list = document.createElement('div'); list.className = 'links-list';
     links.forEach((l, i) => {
-      const row = document.createElement('div');
-      row.className = 'link-row';
-      row.onclick = () => toggleMultiLink(id, i, row);
-
-      const cb = document.createElement('input'); cb.type = 'checkbox';
-      cb.onclick = e => { e.stopPropagation(); toggleMultiLink(id, i, row); };
-
+      const row = document.createElement('div'); row.className = 'link-row'; row.onclick = () => toggleMultiLink(id, i, row);
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.onclick = e => { e.stopPropagation(); toggleMultiLink(id, i, row); };
       const urlSpan = document.createElement('span'); urlSpan.className = 'link-url'; urlSpan.textContent = l.link;
       const clk = document.createElement('span'); clk.className = 'link-clicks';
       const uc = parseInt(l.uniquelinkclicks || 0);
       clk.textContent = uc.toLocaleString() + ' unique';
-
       row.appendChild(cb); row.appendChild(urlSpan); row.appendChild(clk);
       list.appendChild(row);
     });
-
     panel.appendChild(list);
   }
 
@@ -522,7 +393,6 @@
     const sel = multiCampaignLinks[campaignId].selectedLinks;
     if (sel.has(linkIdx)) { sel.delete(linkIdx); row.classList.remove('selected'); cb.checked = false; }
     else { sel.add(linkIdx); row.classList.add('selected'); cb.checked = true; }
-
     const n = sel.size;
     const statusEl = document.getElementById('link-status-' + campaignId);
     if (statusEl) statusEl.textContent = n > 0 ? n + ' link' + (n !== 1 ? 's' : '') + ' selected' : '';
@@ -531,7 +401,8 @@
 
   function updateMultiBadge() {
     const n = checkedCampaigns.size;
-    document.getElementById('multi-check-badge').innerHTML = n > 0 ? '<span class="count-badge">' + n + ' selected</span>' : '';
+    document.getElementById('multi-check-badge').innerHTML = n > 0 ? '<span class="count-badge">' + n + ' checked</span>' : '';
+    document.getElementById('clear-btn').style.display = addedCampaignIds.size > 0 ? 'inline' : 'none';
   }
 
   function checkMultiReadiness() {
@@ -541,7 +412,13 @@
     document.getElementById('generate-section').style.display = hasChecked ? 'block' : 'none';
   }
 
-  // ── Generate report ───────────────────────────────────────────────
+  function clearChecklist() {
+    document.getElementById('campaign-checklist').innerHTML = '';
+    addedCampaignIds.clear(); checkedCampaigns.clear(); multiCampaignLinks = {};
+    updateMultiBadge(); checkMultiReadiness();
+    showStatus('campaign-status', '');
+  }
+
   async function generateReport() {
     const advertiser = document.getElementById('advertiser-name').value.trim();
     if (!advertiser) { showStatus('gen-status', 'Please enter the advertiser name.', true); return; }
@@ -551,11 +428,10 @@
 
   async function generatePromoReport(advertiser) {
     const campaignId = document.getElementById('campaign-select').value;
+    if (!campaignId) { showStatus('gen-status', 'Please select a campaign.', true); return; }
     if (selectedLinks.size === 0) { showStatus('gen-status', 'Please select at least one link.', true); return; }
-
     document.getElementById('gen-btn').disabled = true;
     showStatus('gen-status', 'Fetching campaign stats…');
-
     try {
       const statsData = await acFetch('campaigns/' + campaignId);
       const c = statsData.campaign || campaignData[campaignId];
@@ -566,44 +442,29 @@
       const screenshot = c.screenshot ? 'https:' + c.screenshot : null;
       const sentDate = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
       const campaignName = (campaignData[campaignId] || c).name || 'this newsletter';
-
       const selectedLinkObjs = [...selectedLinks].map(i => allLinks[i]);
-      const linkLines = selectedLinkObjs.map(l =>
-        '  ' + l.link + '\n  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() + '   ·   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()
-      ).join('\n\n');
-
-      const report = `Hi [Name],\n\nHere's the performance report for your ad in our ${sentDate} newsletter.\n\nCampaign: ${campaignName}\nEmail screenshot: ${screenshot || '[not available]'}\n\n─────────────────────────────────────\nEMAIL PERFORMANCE\n─────────────────────────────────────\nTotal recipients:   ${totalSent.toLocaleString()}\nTotal opens:        ${totalOpens.toLocaleString()}\nUnique opens:       ${uniqueOpens.toLocaleString()}\nOpen rate:          ${openRate}\n\n─────────────────────────────────────\nYOUR AD — LINK PERFORMANCE\n─────────────────────────────────────\nLink breakdown:\n\n${linkLines}\n\n─────────────────────────────────────\n\nThanks for advertising with us! Let us know if you have any questions.\n\nBlock Club Chicago`;
-
+      const linkLines = selectedLinkObjs.map(l => '  ' + l.link + '\n  Total clicks: ' + parseInt(l.linkclicks || 0).toLocaleString() + '   \xb7   Unique clicks: ' + parseInt(l.uniquelinkclicks || 0).toLocaleString()).join('\n\n');
+      const report = 'Hi [Name],\n\nHere\'s the performance report for your ad in our ' + sentDate + ' newsletter.\n\nCampaign: ' + campaignName + '\nEmail screenshot: ' + (screenshot || '[not available]') + '\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nEMAIL PERFORMANCE\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTotal recipients:   ' + totalSent.toLocaleString() + '\nTotal opens:        ' + totalOpens.toLocaleString() + '\nUnique opens:       ' + uniqueOpens.toLocaleString() + '\nOpen rate:          ' + openRate + '\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nYOUR AD \u2014 LINK PERFORMANCE\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nLink breakdown:\n\n' + linkLines + '\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\nThanks for advertising with us! Let us know if you have any questions.\n\nBlock Club Chicago';
       document.getElementById('report-text').textContent = report;
       document.getElementById('report-section').style.display = 'block';
       document.getElementById('copy-confirm').classList.remove('show');
       showStatus('gen-status', '');
       document.getElementById('report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } catch(e) {
-      showStatus('gen-status', e.message, true);
-    } finally {
-      document.getElementById('gen-btn').disabled = false;
-    }
+    } catch(e) { showStatus('gen-status', e.message, true); }
+    finally { document.getElementById('gen-btn').disabled = false; }
   }
 
   async function generateMultiReport(advertiser) {
     const ids = [...checkedCampaigns];
-    if (ids.length === 0) { showStatus('gen-status', 'Please select at least one campaign.', true); return; }
-
+    if (ids.length === 0) { showStatus('gen-status', 'Please check at least one campaign.', true); return; }
     for (const id of ids) {
-      if (!multiCampaignLinks[id] || multiCampaignLinks[id].selectedLinks.size === 0) {
-        showStatus('gen-status', 'Please select at least one link for each checked campaign.', true);
-        return;
-      }
+      if (!multiCampaignLinks[id] || multiCampaignLinks[id].selectedLinks.size === 0) { showStatus('gen-status', 'Please select at least one link for each checked campaign.', true); return; }
     }
-
     document.getElementById('gen-btn').disabled = true;
     showStatus('gen-status', 'Fetching stats for ' + ids.length + ' campaigns…');
-
     try {
       const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
       const rows = [];
-
       for (const id of ids) {
         const statsData = await acFetch('campaigns/' + id);
         const c = statsData.campaign || campaignData[id];
@@ -618,129 +479,54 @@
         const selectedLinkObjs = [...selLinks].map(i => links[i]);
         rows.push({ id, campaignName, sentDate, screenshot, totalSent, totalOpens, uniqueOpens, openRate, selectedLinkObjs });
       }
-
       buildMultiPDF(advertiser, rows, today);
       showStatus('gen-status', '');
-    } catch(e) {
-      showStatus('gen-status', e.message, true);
-    } finally {
-      document.getElementById('gen-btn').disabled = false;
-    }
+    } catch(e) { showStatus('gen-status', e.message, true); }
+    finally { document.getElementById('gen-btn').disabled = false; }
   }
 
   function buildMultiPDF(advertiser, rows, today) {
     const sectionsHtml = rows.map(row => {
-      const linkRowsHtml = row.selectedLinkObjs.map(l => `
-        <tr>
-          <td style="padding:8px 10px;font-size:12px;word-break:break-all;border:1px solid #d8d5ce;">${l.link}</td>
-          <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${parseInt(l.uniquelinkclicks || 0).toLocaleString()}</td>
-          <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${parseInt(l.linkclicks || 0).toLocaleString()}</td>
-        </tr>`).join('');
-
-      return `
-      <div style="margin-bottom:32px;page-break-inside:avoid;">
-        <h2 style="font-family:Georgia,serif;font-size:16px;font-weight:bold;margin-bottom:4px;color:#1a1a1a;">${row.campaignName}</h2>
-        <p style="font-family:Arial,sans-serif;font-size:12px;color:#767370;margin-bottom:12px;">
-          ${row.sentDate}${row.screenshot ? ' &nbsp;·&nbsp; <a href="' + row.screenshot + '" style="color:#c8392b;">View email screenshot</a>' : ''}
-        </p>
-        <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Email Overview</p>
-        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-family:Arial,sans-serif;">
-          <thead>
-            <tr style="background:#1a1a1a;color:#fff;">
-              <th style="padding:8px 10px;font-size:11px;text-align:left;font-weight:bold;">Recipients</th>
-              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Unique Opens</th>
-              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Total Opens</th>
-              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Open Rate</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="padding:8px 10px;font-size:12px;border:1px solid #d8d5ce;">${row.totalSent.toLocaleString()}</td>
-              <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${row.uniqueOpens.toLocaleString()}</td>
-              <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${row.totalOpens.toLocaleString()}</td>
-              <td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">${row.openRate}</td>
-            </tr>
-          </tbody>
-        </table>
-        <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Link Click Breakdown</p>
-        <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;">
-          <thead>
-            <tr style="background:#1a1a1a;color:#fff;">
-              <th style="padding:8px 10px;font-size:11px;text-align:left;font-weight:bold;">Link</th>
-              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Unique Link Clicks</th>
-              <th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Total Link Clicks</th>
-            </tr>
-          </thead>
-          <tbody>${linkRowsHtml}</tbody>
-        </table>
-      </div>`;
+      const linkRowsHtml = row.selectedLinkObjs.map(l => '<tr><td style="padding:8px 10px;font-size:12px;word-break:break-all;border:1px solid #d8d5ce;">' + l.link + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + parseInt(l.uniquelinkclicks || 0).toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + parseInt(l.linkclicks || 0).toLocaleString() + '</td></tr>').join('');
+      return '<div style="margin-bottom:32px;page-break-inside:avoid;"><h2 style="font-family:Georgia,serif;font-size:16px;font-weight:bold;margin-bottom:4px;color:#1a1a1a;">' + row.campaignName + '</h2><p style="font-family:Arial,sans-serif;font-size:12px;color:#767370;margin-bottom:12px;">' + row.sentDate + (row.screenshot ? ' &nbsp;&middot;&nbsp; <a href="' + row.screenshot + '" style="color:#c8392b;">View email screenshot</a>' : '') + '</p><p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Email Overview</p><table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-family:Arial,sans-serif;"><thead><tr style="background:#1a1a1a;color:#fff;"><th style="padding:8px 10px;font-size:11px;text-align:left;font-weight:bold;">Recipients</th><th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Unique Opens</th><th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Total Opens</th><th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Open Rate</th></tr></thead><tbody><tr><td style="padding:8px 10px;font-size:12px;border:1px solid #d8d5ce;">' + row.totalSent.toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + row.uniqueOpens.toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + row.totalOpens.toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + row.openRate + '</td></tr></tbody></table><p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Link Click Breakdown</p><table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;"><thead><tr style="background:#1a1a1a;color:#fff;"><th style="padding:8px 10px;font-size:11px;text-align:left;font-weight:bold;">Link</th><th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Unique Link Clicks</th><th style="padding:8px 10px;font-size:11px;text-align:center;font-weight:bold;">Total Link Clicks</th></tr></thead><tbody>' + linkRowsHtml + '</tbody></table></div>';
     }).join('<hr style="border:none;border-top:1px solid #d8d5ce;margin:24px 0;">');
 
-    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-      <title>${advertiser} Campaign Report</title>
-      <style>
-        body { font-family: Arial, sans-serif; color: #1a1a1a; margin: 0; padding: 40px; max-width: 750px; margin: 0 auto; }
-        @media print { @page { margin: 0.75in; size: letter; } .no-print { display: none !important; } body { padding: 0; } }
-      </style>
-      </head><body>
-      <div class="no-print" style="background:#f7f6f3;border-bottom:1px solid #d8d5ce;padding:12px 20px;margin:-40px -40px 32px;display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-family:Arial,sans-serif;font-size:13px;color:#767370;">Preview — check the report, then download as PDF</span>
-        <button onclick="window.print()" style="background:#c8392b;color:#fff;border:none;padding:8px 18px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;">Download PDF</button>
-      </div>
-      <div style="text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #1a1a1a;">
-        <h1 style="font-family:Georgia,serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1>
-        <p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">${advertiser} Campaign Promotional Email Report</p>
-      </div>
-      ${sectionsHtml}
-      <div style="margin-top:32px;padding-top:16px;border-top:1px solid #d8d5ce;text-align:right;">
-        <p style="font-family:Arial,sans-serif;font-size:11px;color:#767370;">Data pulled ${today}</p>
-      </div>
-      </body></html>`;
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + advertiser + ' Campaign Report</title><style>body{font-family:Arial,sans-serif;color:#1a1a1a;margin:0;padding:40px;max-width:750px;margin:0 auto;}@media print{@page{margin:0.75in;size:letter;}.no-print{display:none!important;}body{padding:0;}}</style></head><body><div class="no-print" style="background:#f7f6f3;border-bottom:1px solid #d8d5ce;padding:12px 20px;margin:-40px -40px 32px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:Arial,sans-serif;font-size:13px;color:#767370;">Preview \u2014 check the report, then download as PDF</span><button onclick="window.print()" style="background:#c8392b;color:#fff;border:none;padding:8px 18px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;">Download PDF</button></div><div style="text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #1a1a1a;"><h1 style="font-family:Georgia,serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1><p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">' + advertiser + ' Campaign Promotional Email Report</p></div>' + sectionsHtml + '<div style="margin-top:32px;padding-top:16px;border-top:1px solid #d8d5ce;text-align:right;"><p style="font-family:Arial,sans-serif;font-size:11px;color:#767370;">Data pulled ' + today + '</p></div></body></html>';
 
     const win = window.open('', '_blank');
     win.document.write(html);
     win.document.close();
   }
 
-  // ── Copy promo report ─────────────────────────────────────────────
   function copyReport() {
-    const text = document.getElementById('report-text').textContent;
-    navigator.clipboard.writeText(text).then(() => {
+    navigator.clipboard.writeText(document.getElementById('report-text').textContent).then(() => {
       document.getElementById('copy-confirm').classList.add('show');
       setTimeout(() => document.getElementById('copy-confirm').classList.remove('show'), 3000);
     });
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────
-  function hideStepsBelow(from) {
-    document.getElementById('step-promo-links').style.display = 'none';
-    document.getElementById('rule2').style.display = 'none';
-    document.getElementById('step-name').style.display = 'none';
-    document.getElementById('rule1').style.display = 'none';
-    document.getElementById('generate-section').style.display = 'none';
-    document.getElementById('report-section').style.display = 'none';
+  function hideStepsBelow() {
+    ['step-promo-links','rule2','step-name','rule1','generate-section','report-section'].forEach(id => { document.getElementById(id).style.display = 'none'; });
   }
 
   function resetTool(keepDates) {
-    hideStepsBelow('dates');
+    hideStepsBelow();
     if (!keepDates) {
       document.getElementById('date-from').value = '';
       document.getElementById('date-to').value = '';
       document.getElementById('campaign-search').value = '';
     }
+    campaignData = {};
     document.getElementById('campaign-select').value = '';
     document.getElementById('campaign-select').innerHTML = '<option value="">— search for a campaign above —</option>';
     document.getElementById('campaign-checklist').innerHTML = '';
     document.getElementById('multi-check-badge').textContent = '';
+    document.getElementById('clear-btn').style.display = 'none';
     document.getElementById('advertiser-name').value = '';
     document.getElementById('gen-status').innerHTML = '';
     document.getElementById('campaign-status').innerHTML = '';
     document.getElementById('report-section').style.display = 'none';
-    selectedLinks.clear();
-    allLinks = [];
-    multiCampaignLinks = {};
-    checkedCampaigns.clear();
-    allFetchedCampaigns = [];
+    selectedLinks.clear(); allLinks = []; multiCampaignLinks = {}; checkedCampaigns.clear(); addedCampaignIds.clear();
   }
 </script>
 </body>
