@@ -166,11 +166,11 @@
     </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <div style="display:flex;align-items:center;gap:6px;flex:1">
-        <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">From (optional)</label>
+        <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">From (required)</label>
         <input type="date" id="date-from" />
       </div>
       <div style="display:flex;align-items:center;gap:6px;flex:1">
-        <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">To (optional)</label>
+        <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">To (required)</label>
         <input type="date" id="date-to" />
       </div>
     </div>
@@ -298,6 +298,7 @@
     const to = document.getElementById('date-to').value;
 
     if (!keyword) { showStatus('campaign-status', 'Please enter a campaign name to search.', true); return; }
+    if (!from || !to) { showStatus('campaign-status', 'Please enter a date range — this is required to search historical campaigns.', true); return; }
 
     const btn = document.getElementById('load-btn');
     btn.disabled = true;
@@ -318,46 +319,57 @@
     showStatus('campaign-status', 'Searching…');
 
     try {
-      // Fetch up to 200 results matching the keyword, sorted newest first
-const path = 'campaigns?limit=500&orders[sdate]=DESC&filters[status]=5&search=' + encodeURIComponent(keyword);
-      const data = await acFetch(path);
-      let campaigns = data.campaigns || [];
+      // Auto-paginate through keyword results until we pass the from date
+      let offset = 0;
+      const PAGE = 100;
 
-      // Optional date filter client-side
-      if (from || to) {
-        campaigns = campaigns.filter(c => {
+      while (true) {
+        const path = 'campaigns?limit=' + PAGE + '&offset=' + offset + '&orders[sdate]=DESC&filters[status]=5&search=' + encodeURIComponent(keyword);
+        const data = await acFetch(path);
+        const batch = data.campaigns || [];
+        if (!batch.length) break;
+
+        // Filter to date range
+        const filtered = batch.filter(c => {
           if (!c.sdate) return false;
           const cDate = c.sdate.substring(0, 10);
-          if (from && cDate < from) return false;
-          if (to && cDate > to) return false;
-          return true;
+          return cDate >= from && cDate <= to;
         });
-      }
 
-      if (!campaigns.length) {
-        showStatus('campaign-status', 'No sent campaigns found matching "' + keyword + '"' + (from || to ? ' in that date range' : '') + '.', true);
-        return;
-      }
+        filtered.forEach(c => {
+          campaignData[c.id] = c;
+          allFetchedCampaigns.push(c);
+          if (mode === 'promo') {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+            opt.textContent = (d ? d + ' — ' : '') + c.name;
+            document.getElementById('campaign-select').appendChild(opt);
+          } else {
+            addCampaignCheckRow(c);
+          }
+        });
 
-      campaigns.forEach(c => {
-        campaignData[c.id] = c;
-        allFetchedCampaigns.push(c);
-        if (mode === 'promo') {
-          const opt = document.createElement('option');
-          opt.value = c.id;
-          const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-          opt.textContent = (d ? d + ' — ' : '') + c.name;
-          document.getElementById('campaign-select').appendChild(opt);
-        } else {
-          addCampaignCheckRow(c);
-        }
-      });
+        offset += batch.length;
+        const oldestDate = batch[batch.length - 1].sdate.substring(0, 10);
+
+        // Update status while searching
+        showStatus('campaign-status', 'Searching… ' + (allFetchedCampaigns.length > 0 ? allFetchedCampaigns.length + ' found so far' : ''));
+
+        // Stop once we've gone past the from date or exhausted results
+        if (oldestDate < from || batch.length < PAGE) break;
+      }
 
       if (mode === 'promo') {
         document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value);
       }
 
-      const total = campaigns.length;
+      const total = allFetchedCampaigns.length;
+      if (!total) {
+        showStatus('campaign-status', 'No sent campaigns found matching "' + keyword + '" between ' + from + ' and ' + to + '.', true);
+        return;
+      }
+
       showStatus('campaign-status', total + ' campaign' + (total !== 1 ? 's' : '') + ' found.');
       if (mode === 'multi') checkMultiReadiness();
 
