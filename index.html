@@ -230,6 +230,11 @@
 
 <script>
   let mode = 'promo';
+  // Pre-fill search with 'Promo' on load since Promo Email is the default mode
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('campaign-search').value = 'Promo';
+    document.getElementById('campaign-search').placeholder = 'Pre-filtered to Promo emails — change date range and click Search';
+  });
   let campaignData = {};       // all campaigns ever fetched, keyed by id
 
   // Promo mode state
@@ -268,7 +273,15 @@
     document.getElementById('promo-select-wrap').style.display = m === 'promo' ? 'block' : 'none';
     document.getElementById('multi-wrap').style.display = m === 'multi' ? 'block' : 'none';
     document.getElementById('name-step-num').textContent = m === 'promo' ? 'Step 3' : 'Step 2';
-    document.getElementById('step1-title').textContent = m === 'promo' ? 'Search for a campaign' : 'Search and add campaigns';
+    document.getElementById('step1-title').textContent = m === 'promo' ? 'Select a campaign' : 'Search and add campaigns';
+    const searchBox = document.getElementById('campaign-search');
+    if (m === 'promo') {
+      searchBox.value = 'Promo';
+      searchBox.placeholder = 'Pre-filtered to Promo emails — change date range and click Search';
+    } else {
+      searchBox.value = '';
+      searchBox.placeholder = 'Newsletter name (e.g. Morning Briefing, Pilsen, Arts)';
+    }
     resetTool(true);
   }
 
@@ -713,7 +726,20 @@
       + '@media print{@page{margin:0.75in;size:letter;-webkit-print-color-adjust:exact;}.no-print{display:none!important;}body{padding:0;}}'
       + '@page{margin:0.75in;}'
       + '</style>'
-      + '<script>function downloadDoc(){var blob=new Blob([document.documentElement.outerHTML],{type:"text/html"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="' + advertiser.replace(/[^a-z0-9]/gi,'_') + '_Campaign_Report.html";a.click();}<\/script>'
+      + '<script>'
+      + 'function downloadDoc(){'
+      + 'var clone=document.documentElement.cloneNode(true);'
+      + 'var toolbar=clone.querySelector(".no-print");'
+      + 'if(toolbar)toolbar.parentNode.removeChild(toolbar);'
+      + 'var scripts=clone.querySelectorAll("script");'
+      + 'scripts.forEach(function(s){s.parentNode.removeChild(s);});'
+      + 'var blob=new Blob(["<!DOCTYPE html>"+clone.outerHTML],{type:"text/html"});'
+      + 'var a=document.createElement("a");'
+      + 'a.href=URL.createObjectURL(blob);'
+      + 'a.download="' + advertiser.replace(/[^a-z0-9]/gi,'_') + '_Campaign_Report.html";'
+      + 'a.click();'
+      + '}'
+      + '<\/script>'
       + '</head><body>'
       + '<div class="no-print" style="background:#f7f6f3;border-bottom:1px solid #d8d5ce;padding:16px 20px;margin:-40px -40px 32px;">'
       +   '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
@@ -722,14 +748,14 @@
       +     '<button onclick="downloadDoc()" style="background:#1a73e8;color:#fff;border:none;padding:8px 16px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;">Download for Google Docs</button>'
       +   '</div>'
       +   '<div style="font-family:Arial,sans-serif;font-size:12px;color:#767370;line-height:1.6;border-top:1px solid #d8d5ce;padding-top:10px;">'
-      +     '<strong style="color:#1a1a1a;">To save as a Google Doc:</strong> Click \"Download for Google Docs\" above, then open '
+      +     '<strong style="color:#1a1a1a;">To save as PDF:</strong> In the print dialog, uncheck <em>Headers and footers</em> before saving. &nbsp;&nbsp;|&nbsp;&nbsp; <strong style="color:#1a1a1a;">To save as a Google Doc:</strong> Click \"Download for Google Docs\" above, then open '
       +     '<a href="https://drive.google.com" target="_blank" style="color:#1a73e8;">Google Drive</a> '
       +     'in your browser. Drag the downloaded <code style="background:#f1f1f1;padding:1px 4px;border-radius:3px;">.html</code> '
       +     'file from your Downloads folder into any Drive folder — it will automatically convert to a Google Doc.'
       +   '</div>'
       + '</div>'
       + '<div style="text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #1a1a1a;">'
-      +   '<h1 style="font-family:Georgia,serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1>'
+      +   '<h1 style="font-family:Arial,sans-serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1>'
       +   '<p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">' + advertiser + ' Campaign Promotional Email Report</p>'
       + '</div>'
       + sectionsHtml
@@ -758,7 +784,7 @@
     if (!keepDates) {
       document.getElementById('date-from').value = '';
       document.getElementById('date-to').value = '';
-      document.getElementById('campaign-search').value = '';
+      document.getElementById('campaign-search').value = mode === 'promo' ? 'Promo' : '';
     }
     campaignData = {};
     document.getElementById('campaign-select').value = '';
