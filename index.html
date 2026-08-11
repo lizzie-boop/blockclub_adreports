@@ -707,20 +707,38 @@
       return '<div style="margin-bottom:32px;page-break-inside:avoid;"><h2 style="font-family:Georgia,serif;font-size:16px;font-weight:bold;margin-bottom:4px;color:#1a1a1a;">' + row.campaignName + '</h2><p style="font-family:Arial,sans-serif;font-size:12px;color:#767370;margin-bottom:12px;">' + row.sentDate + (row.screenshot ? ' &nbsp;&middot;&nbsp; <a href="' + row.screenshot + '" style="color:#c8392b;">View email screenshot</a>' : '') + '</p><p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Email Overview</p><table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-family:Arial,sans-serif;"><thead><tr style="background:#1a1a1a;color:#fff;"><th style="padding:8px 10px;font-size:11px;text-align:left;">Recipients</th><th style="padding:8px 10px;font-size:11px;text-align:center;">Unique Opens</th><th style="padding:8px 10px;font-size:11px;text-align:center;">Total Opens</th><th style="padding:8px 10px;font-size:11px;text-align:center;">Open Rate</th></tr></thead><tbody><tr><td style="padding:8px 10px;font-size:12px;border:1px solid #d8d5ce;">' + row.totalSent.toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + row.uniqueOpens.toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + row.totalOpens.toLocaleString() + '</td><td style="padding:8px 10px;font-size:12px;text-align:center;border:1px solid #d8d5ce;">' + row.openRate + '</td></tr></tbody></table><p style="font-family:Arial,sans-serif;font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:0.08em;color:#767370;margin-bottom:6px;">Link Click Breakdown</p><table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;"><thead><tr style="background:#1a1a1a;color:#fff;"><th style="padding:8px 10px;font-size:11px;text-align:left;">Link</th><th style="padding:8px 10px;font-size:11px;text-align:center;">Unique Link Clicks</th><th style="padding:8px 10px;font-size:11px;text-align:center;">Total Link Clicks</th></tr></thead><tbody>' + linkRowsHtml + '</tbody></table></div>';
     }).join('<hr style="border:none;border-top:1px solid #d8d5ce;margin:24px 0;">');
 
-    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + advertiser + ' Campaign Report</title><style>body{font-family:Arial,sans-serif;color:#1a1a1a;padding:40px;max-width:750px;margin:0 auto;}@media print{@page{margin:0.75in;size:letter;-webkit-print-color-adjust:exact;}.no-print{display:none!important;}body{padding:0;}}@page{margin:0.75in;}</style></head><body><div class="no-print" style="background:#f7f6f3;border-bottom:1px solid #d8d5ce;padding:12px 20px;margin:-40px -40px 32px;display:flex;align-items:center;justify-content:space-between;"><span style="font-family:Arial,sans-serif;font-size:13px;color:#767370;">Preview \u2014 check the report, then download as PDF</span><button onclick="window.print()" style="background:#c8392b;color:#fff;border:none;padding:8px 18px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;">Download PDF</button></div><div style="text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #1a1a1a;"><h1 style="font-family:Georgia,serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1><p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">' + advertiser + ' Campaign Promotional Email Report</p></div>' + sectionsHtml + '<div style="margin-top:32px;padding-top:16px;border-top:1px solid #d8d5ce;text-align:right;"><p style="font-family:Arial,sans-serif;font-size:11px;color:#767370;">Data pulled ' + today + '</p></div></body></html>';
-
-    // Add download button to preview page
-    const dlBtn = '<button onclick="downloadDoc()" style="background:#1a73e8;color:#fff;border:none;padding:8px 18px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;margin-left:8px;">Download for Google Docs</button><div style="margin-top:10px;font-family:Arial,sans-serif;font-size:12px;color:#767370;line-height:1.6;"><strong style="color:#1a1a1a;">To save as a Google Doc:</strong> Click \"Download for Google Docs\" above, then open <a href=\"https://drive.google.com\" target=\"_blank\" style=\"color:#1a73e8;\">Google Drive</a> in your browser. Drag the downloaded <code style=\"background:#f1f1f1;padding:1px 5px;border-radius:3px;\">.html</code> file from your Downloads folder into any Drive folder. Google Drive will automatically convert it to a Google Doc.</div>';
-    const finalHtml = html.replace(
-      '<button onclick="window.print()"',
-      '<button onclick="window.print()"'
-    ).replace(
-      '</div><div style="text-align:center',
-      dlBtn + '</div><script>function downloadDoc(){var blob=new Blob([document.documentElement.outerHTML],{type:"text/html"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="' + advertiser.replace(/[^a-z0-9]/gi,'_') + '_Campaign_Report.html";a.click();}<\/script><div style="text-align:center'
-    );
+    const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' + advertiser + ' Campaign Report</title>'
+      + '<style>'
+      + 'body{font-family:Arial,sans-serif;color:#1a1a1a;padding:40px;max-width:750px;margin:0 auto;}'
+      + '@media print{@page{margin:0.75in;size:letter;-webkit-print-color-adjust:exact;}.no-print{display:none!important;}body{padding:0;}}'
+      + '@page{margin:0.75in;}'
+      + '</style>'
+      + '<script>function downloadDoc(){var blob=new Blob([document.documentElement.outerHTML],{type:"text/html"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="' + advertiser.replace(/[^a-z0-9]/gi,'_') + '_Campaign_Report.html";a.click();}<\/script>'
+      + '</head><body>'
+      + '<div class="no-print" style="background:#f7f6f3;border-bottom:1px solid #d8d5ce;padding:16px 20px;margin:-40px -40px 32px;">'
+      +   '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">'
+      +     '<span style="font-family:Arial,sans-serif;font-size:13px;color:#767370;flex:1;">Preview — check the report before saving.</span>'
+      +     '<button onclick="window.print()" style="background:#c8392b;color:#fff;border:none;padding:8px 16px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;">Download PDF</button>'
+      +     '<button onclick="downloadDoc()" style="background:#1a73e8;color:#fff;border:none;padding:8px 16px;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;border-radius:4px;cursor:pointer;">Download for Google Docs</button>'
+      +   '</div>'
+      +   '<div style="font-family:Arial,sans-serif;font-size:12px;color:#767370;line-height:1.6;border-top:1px solid #d8d5ce;padding-top:10px;">'
+      +     '<strong style="color:#1a1a1a;">To save as a Google Doc:</strong> Click \"Download for Google Docs\" above, then open '
+      +     '<a href="https://drive.google.com" target="_blank" style="color:#1a73e8;">Google Drive</a> '
+      +     'in your browser. Drag the downloaded <code style="background:#f1f1f1;padding:1px 4px;border-radius:3px;">.html</code> '
+      +     'file from your Downloads folder into any Drive folder — it will automatically convert to a Google Doc.'
+      +   '</div>'
+      + '</div>'
+      + '<div style="text-align:center;margin-bottom:28px;padding-bottom:20px;border-bottom:3px solid #1a1a1a;">'
+      +   '<h1 style="font-family:Georgia,serif;font-size:36px;font-weight:bold;margin-bottom:8px;">Block Club Chicago</h1>'
+      +   '<p style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;">' + advertiser + ' Campaign Promotional Email Report</p>'
+      + '</div>'
+      + sectionsHtml
+      + '<div style="margin-top:32px;padding-top:16px;border-top:1px solid #d8d5ce;text-align:right;">'
+      +   '<p style="font-family:Arial,sans-serif;font-size:11px;color:#767370;">Data pulled ' + today + '</p>'
+      + '</div></body></html>';
 
     const win = window.open('', '_blank');
-    win.document.write(finalHtml);
+    win.document.write(html);
     win.document.close();
   }
 
