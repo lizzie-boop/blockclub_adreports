@@ -210,6 +210,19 @@
     <p class="hint">Used in the report title.</p>
   </div>
 
+  <!-- Format toggle (promo mode only) -->
+  <div id="format-toggle-section" style="display:none;margin-bottom:20px;">
+    <div class="step-header" style="margin-bottom:10px;">
+      <span class="step-num" id="format-step-num">Step 4</span>
+      <span class="step-title">Report format</span>
+    </div>
+    <div class="mode-toggle" style="max-width:380px;">
+      <button class="mode-btn active" id="fmt-email" onclick="setFormat('email')">Email draft</button>
+      <button class="mode-btn" id="fmt-pdf" onclick="setFormat('pdf')">PDF report</button>
+    </div>
+    <p class="hint" style="margin-top:8px;" id="format-hint">Copy/paste text to send to the advertiser.</p>
+  </div>
+
   <!-- Generate -->
   <div id="generate-section" style="display:none">
     <div class="btn-row">
@@ -232,6 +245,7 @@
 
 <script>
   let mode = 'promo';
+  let promoFormat = 'email'; // 'email' or 'pdf'
   // Hide search input and pre-fill 'Promo' on load since Promo Email is the default mode
   (function() {
     var el = document.getElementById('campaign-search');
@@ -313,6 +327,16 @@
 
   function hideProgress() {
     document.getElementById('progress-wrap').classList.remove('active');
+  }
+
+  // ── Format toggle (promo mode only) ──────────────────────────────
+  function setFormat(f) {
+    promoFormat = f;
+    document.getElementById('fmt-email').classList.toggle('active', f === 'email');
+    document.getElementById('fmt-pdf').classList.toggle('active', f === 'pdf');
+    document.getElementById('format-hint').textContent = f === 'email'
+      ? 'Copy/paste text to send to the advertiser.'
+      : 'Branded PDF report matching the multi-newsletter format.';
   }
 
   // ── Load campaigns (parallel fetch + progress bar) ────────────────
@@ -605,6 +629,8 @@
       document.getElementById('rule2').style.display = 'block';
       document.getElementById('step-name').style.display = 'block';
       document.getElementById('rule1').style.display = 'block';
+      document.getElementById('format-toggle-section').style.display = 'block';
+      document.getElementById('format-step-num').textContent = 'Step 4';
       document.getElementById('generate-section').style.display = 'block';
     } catch(e) { showStatus('campaign-status', e.message, true); }
   }
@@ -653,7 +679,8 @@
   async function generateReport() {
     const advertiser = document.getElementById('advertiser-name').value.trim();
     if (!advertiser) { showStatus('gen-status', 'Please enter the advertiser name.', true); return; }
-    if (mode === 'promo') await generatePromoReport(advertiser);
+    if (mode === 'promo' && promoFormat === 'email') await generatePromoReport(advertiser);
+    else if (mode === 'promo' && promoFormat === 'pdf') await generatePromoPDFReport(advertiser);
     else await generateMultiReport(advertiser);
   }
 
@@ -684,6 +711,47 @@
       document.getElementById('report-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch(e) { showStatus('gen-status', e.message, true); }
     finally { document.getElementById('gen-btn').disabled = false; }
+  }
+
+  async function generatePromoPDFReport(advertiser) {
+    const campaignId = document.getElementById('campaign-select').value;
+    if (!campaignId) { showStatus('gen-status', 'Please select a campaign.', true); return; }
+    if (selectedLinks.size === 0) { showStatus('gen-status', 'Please select at least one link.', true); return; }
+
+    document.getElementById('gen-btn').disabled = true;
+    showStatus('gen-status', 'Fetching campaign stats…');
+
+    try {
+      const statsData = await acFetch('campaigns/' + campaignId);
+      const c = statsData.campaign || campaignData[campaignId];
+      const totalSent = parseInt(c.send_amt || c.total_amt || 0);
+      const totalOpens = parseInt(c.opens || 0);
+      const uniqueOpens = parseInt(c.uniqueopens || 0);
+      const openRate = totalSent > 0 ? (uniqueOpens / totalSent * 100).toFixed(1) + '%' : 'N/A';
+      const screenshot = c.screenshot ? 'https:' + c.screenshot : null;
+      const sentDate = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A';
+      const campaignName = (campaignData[campaignId] || c).name || 'this newsletter';
+      const selectedLinkObjs = [...selectedLinks].map(i => allLinks[i]);
+      const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      const rows = [{
+        campaignName,
+        sentDate,
+        screenshot,
+        totalSent,
+        totalOpens,
+        uniqueOpens,
+        openRate,
+        selectedLinkObjs
+      }];
+
+      buildMultiPDF(advertiser, rows, today);
+      showStatus('gen-status', '');
+    } catch(e) {
+      showStatus('gen-status', e.message, true);
+    } finally {
+      document.getElementById('gen-btn').disabled = false;
+    }
   }
 
   async function generateMultiReport(advertiser) {
@@ -775,7 +843,7 @@
   }
 
   function hidePromoSteps() {
-    ['step-promo-links','rule2','step-name','rule1','generate-section','report-section'].forEach(id => document.getElementById(id).style.display = 'none');
+    ['step-promo-links','rule2','step-name','rule1','format-toggle-section','generate-section','report-section'].forEach(id => document.getElementById(id).style.display = 'none');
   }
 
   function resetTool(keepDates) {
@@ -797,6 +865,8 @@
     document.getElementById('campaign-status').innerHTML = '';
     document.getElementById('report-section').style.display = 'none';
     selectedLinks.clear(); allLinks = []; allSelected = false;
+    promoFormat = 'email';
+    setFormat('email');
   }
 </script>
 </body>
