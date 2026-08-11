@@ -123,7 +123,7 @@
       <span class="step-num">Step 1</span>
       <span class="step-title" id="step1-title">Search for a campaign</span>
     </div>
-    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+    <div id="search-row" style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <input type="text" id="campaign-search" placeholder="Newsletter name (e.g. Morning Briefing, Pilsen, Arts)" style="flex:1" onkeydown="if(event.key==='Enter')loadCampaigns()" />
       <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Search</button>
     </div>
@@ -230,11 +230,13 @@
 
 <script>
   let mode = 'promo';
-  // Pre-fill search with 'Promo' on load since Promo Email is the default mode
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('campaign-search').value = 'Promo';
-    document.getElementById('campaign-search').placeholder = 'Pre-filtered to Promo emails — change date range and click Search';
-  });
+  // Hide search row and pre-fill 'Promo' on load since Promo Email is the default mode
+  (function() {
+    var el = document.getElementById('campaign-search');
+    var row = document.getElementById('search-row');
+    if (el) el.value = 'Promo';
+    if (row) row.style.display = 'none';
+  })();
   let campaignData = {};       // all campaigns ever fetched, keyed by id
 
   // Promo mode state
@@ -274,14 +276,8 @@
     document.getElementById('multi-wrap').style.display = m === 'multi' ? 'block' : 'none';
     document.getElementById('name-step-num').textContent = m === 'promo' ? 'Step 3' : 'Step 2';
     document.getElementById('step1-title').textContent = m === 'promo' ? 'Select a campaign' : 'Search and add campaigns';
-    const searchBox = document.getElementById('campaign-search');
-    if (m === 'promo') {
-      searchBox.value = 'Promo';
-      searchBox.placeholder = 'Pre-filtered to Promo emails — change date range and click Search';
-    } else {
-      searchBox.value = '';
-      searchBox.placeholder = 'Newsletter name (e.g. Morning Briefing, Pilsen, Arts)';
-    }
+    document.getElementById('search-row').style.display = m === 'promo' ? 'none' : 'flex';
+    document.getElementById('campaign-search').value = m === 'promo' ? 'Promo' : '';
     resetTool(true);
   }
 
