@@ -84,6 +84,14 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .error-box { font-family: 'Arial', sans-serif; font-size: 13px; padding: 10px 14px; background: var(--error-bg); border-left: 3px solid var(--error); color: var(--error); border-radius: 0 4px 4px 0; margin-top: 10px; line-height: 1.5; }
   .success-box { font-family: 'Arial', sans-serif; font-size: 13px; padding: 10px 14px; background: var(--success-bg); border-left: 3px solid var(--success); color: var(--success); border-radius: 0 4px 4px 0; margin-top: 10px; line-height: 1.5; }
+  /* Progress bar */
+  .progress-wrap { margin-top: 10px; display: none; }
+  .progress-wrap.active { display: block; }
+  .progress-label { font-family: 'Arial', sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+  .progress-track { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+  .progress-bar { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; transition: width 0.3s ease; }
+  .progress-bar.indeterminate { width: 30%; animation: progress-slide 1.2s ease-in-out infinite; }
+  @keyframes progress-slide { 0% { transform: translateX(-100%); } 50% { transform: translateX(200%); } 100% { transform: translateX(200%); } }
   /* Promo report output */
   .report-section { margin-top: 36px; border-top: 3px solid var(--black); padding-top: 24px; }
   .report-eyebrow { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 12px; }
@@ -167,6 +175,10 @@
     </div>
 
     <div id="campaign-status"></div>
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-label" id="progress-label">Searching…</div>
+      <div class="progress-track"><div class="progress-bar indeterminate" id="progress-bar"></div></div>
+    </div>
   </div>
 
   <hr class="rule" id="rule1" style="display:none">
@@ -260,7 +272,38 @@
     resetTool(true);
   }
 
-  // ── Load campaigns ────────────────────────────────────────────────
+  // ── Progress bar helpers ─────────────────────────────────────────
+  function showProgress(label) {
+    const wrap = document.getElementById('progress-wrap');
+    const bar = document.getElementById('progress-bar');
+    const lbl = document.getElementById('progress-label');
+    wrap.classList.add('active');
+    bar.classList.add('indeterminate');
+    bar.style.width = '';
+    lbl.textContent = label || 'Searching…';
+  }
+
+  function updateProgress(label) {
+    document.getElementById('progress-label').textContent = label;
+  }
+
+  function completeProgress(label) {
+    const bar = document.getElementById('progress-bar');
+    const lbl = document.getElementById('progress-label');
+    bar.classList.remove('indeterminate');
+    bar.style.width = '100%';
+    lbl.textContent = label || 'Done.';
+    setTimeout(() => {
+      document.getElementById('progress-wrap').classList.remove('active');
+      bar.style.width = '0%';
+    }, 800);
+  }
+
+  function hideProgress() {
+    document.getElementById('progress-wrap').classList.remove('active');
+  }
+
+  // ── Load campaigns (parallel fetch + progress bar) ────────────────
   async function loadCampaigns() {
     const keyword = document.getElementById('campaign-search').value.trim();
     const from = document.getElementById('date-from').value;
@@ -276,77 +319,105 @@
       document.getElementById('campaign-select').innerHTML = '<option value="">— choose a campaign —</option>';
       hidePromoSteps();
     } else {
-      // Clear previous search results
       clearSearchResults(true);
     }
 
-    showStatus('campaign-status', 'Searching…');
+    showStatus('campaign-status', '');
+    showProgress('Searching — scanning recent campaigns…');
 
     try {
       const PAGE = 100;
+      const PARALLEL = 5; // fetch this many pages at once
       let offset = 0;
       let found = 0;
+      let scanned = 0;
+      let done = false;
       const kwLower = keyword.toLowerCase();
 
-      while (true) {
-        const data = await acFetch('campaigns?limit=' + PAGE + '&offset=' + offset + '&orders[sdate]=DESC&filters[status]=5');
-        const batch = data.campaigns || [];
-        if (!batch.length) break;
+      while (!done) {
+        // Fire PARALLEL page fetches simultaneously
+        const offsets = [];
+        for (let i = 0; i < PARALLEL; i++) offsets.push(offset + i * PAGE);
 
-        const filtered = batch.filter(c => {
-          if (!c.sdate || !c.name) return false;
-          const cDate = c.sdate.substring(0, 10);
-          if (cDate < from || cDate > to) return false;
-          return c.name.toLowerCase().includes(kwLower);
-        });
+        const results = await Promise.all(
+          offsets.map(off =>
+            acFetch('campaigns?limit=' + PAGE + '&offset=' + off + '&orders[sdate]=DESC&filters[status]=5')
+              .catch(() => ({ campaigns: [] }))
+          )
+        );
 
-        filtered.forEach(c => {
-          campaignData[c.id] = c;
-          if (mode === 'promo') {
-            const opt = document.createElement('option');
-            opt.value = c.id;
-            const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-            opt.textContent = (d ? d + ' — ' : '') + c.name;
-            document.getElementById('campaign-select').appendChild(opt);
-            found++;
-          } else {
-            // Skip if already committed to report
-            if (!reportItems.find(r => r.id === c.id)) {
-              searchResultIds.push(c.id);
-              addSearchResultRow(c);
+        for (const data of results) {
+          const batch = data.campaigns || [];
+          if (!batch.length) { done = true; break; }
+
+          const filtered = batch.filter(c => {
+            if (!c.sdate || !c.name) return false;
+            const cDate = c.sdate.substring(0, 10);
+            if (cDate < from || cDate > to) return false;
+            return c.name.toLowerCase().includes(kwLower);
+          });
+
+          filtered.forEach(c => {
+            campaignData[c.id] = c;
+            if (mode === 'promo') {
+              const opt = document.createElement('option');
+              opt.value = c.id;
+              const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+              opt.textContent = (d ? d + ' — ' : '') + c.name;
+              document.getElementById('campaign-select').appendChild(opt);
               found++;
+            } else {
+              if (!reportItems.find(r => r.id === c.id)) {
+                searchResultIds.push(c.id);
+                addSearchResultRow(c);
+                found++;
+              }
             }
-          }
-        });
+          });
 
-        offset += batch.length;
-        const oldestDate = batch[batch.length - 1].sdate.substring(0, 10);
-        showStatus('campaign-status', 'Searching…' + (found > 0 ? ' ' + found + ' found so far' : ''));
-        if (oldestDate < from || batch.length < PAGE) break;
-        await new Promise(r => setTimeout(r, 300));
+          scanned += batch.length;
+          const oldestDate = batch[batch.length - 1].sdate.substring(0, 10);
+
+          updateProgress('Scanned ' + scanned.toLocaleString() + ' campaigns' + (found > 0 ? ' · ' + found + ' matching found' : '') + '…');
+
+          // Stop if oldest in this batch is before from date
+          if (oldestDate < from || batch.length < PAGE) { done = true; break; }
+        }
+
+        offset += PARALLEL * PAGE;
+
+        // Small pause between parallel batches to avoid rate limiting
+        if (!done) await new Promise(r => setTimeout(r, 200));
       }
 
       if (mode === 'promo') {
-        if (found === 0) { showStatus('campaign-status', 'No campaigns found matching "' + keyword + '" in that date range.', true); }
-        else { document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value); showStatus('campaign-status', found + ' campaign' + (found !== 1 ? 's' : '') + ' found.'); }
+        if (found === 0) {
+          completeProgress('Search complete — no results found.');
+          showStatus('campaign-status', 'No campaigns found matching "' + keyword + '" in that date range.', true);
+        } else {
+          completeProgress('Search complete · ' + found + ' campaign' + (found !== 1 ? 's' : '') + ' found.');
+          document.getElementById('campaign-select').onchange = () => onPromoSelect(document.getElementById('campaign-select').value);
+        }
       } else {
         if (found === 0) {
+          completeProgress('Search complete — no results found.');
           showStatus('campaign-status', 'No campaigns found matching "' + keyword + '" in that date range.', true);
           document.getElementById('multi-results-wrap').style.display = 'none';
         } else {
-          showStatus('campaign-status', '');
+          completeProgress('Search complete · ' + found + ' campaign' + (found !== 1 ? 's' : '') + ' found.');
           document.getElementById('multi-results-label').textContent = found + ' result' + (found !== 1 ? 's' : '') + ' for "' + keyword + '"';
           document.getElementById('multi-results-wrap').style.display = 'block';
         }
       }
     } catch(e) {
+      hideProgress();
       showStatus('campaign-status', e.message, true);
     } finally {
       btn.disabled = false;
     }
   }
 
-  // ── Multi: search results ─────────────────────────────────────────
+    // ── Multi: search results ─────────────────────────────────────────
   function addSearchResultRow(c) {
     const container = document.getElementById('campaign-checklist');
     const d = c.sdate ? new Date(c.sdate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
