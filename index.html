@@ -126,9 +126,6 @@
     <div id="search-input-row" style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <input type="text" id="campaign-search" placeholder="Newsletter name (e.g. Morning Briefing, Pilsen, Arts)" style="flex:1" onkeydown="if(event.key==='Enter')loadCampaigns()" />
     </div>
-    <div id="search-btn-row" style="margin-bottom:10px;">
-      <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Load campaigns</button>
-    </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <div style="display:flex;align-items:center;gap:6px;flex:1">
         <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">From (required)</label>
@@ -138,6 +135,9 @@
         <label style="margin:0;white-space:nowrap;color:var(--muted);font-size:12px">To (required)</label>
         <input type="date" id="date-to" />
       </div>
+    </div>
+    <div id="search-btn-row" style="margin-bottom:10px;">
+      <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Load campaigns</button>
     </div>
 
     <!-- Promo: dropdown -->
