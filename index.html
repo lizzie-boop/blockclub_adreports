@@ -123,9 +123,11 @@
       <span class="step-num">Step 1</span>
       <span class="step-title" id="step1-title">Search for a campaign</span>
     </div>
-    <div id="search-row" style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+    <div id="search-input-row" style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <input type="text" id="campaign-search" placeholder="Newsletter name (e.g. Morning Briefing, Pilsen, Arts)" style="flex:1" onkeydown="if(event.key==='Enter')loadCampaigns()" />
-      <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Search</button>
+    </div>
+    <div id="search-btn-row" style="margin-bottom:10px;">
+      <button class="btn btn-primary" onclick="loadCampaigns()" id="load-btn" style="white-space:nowrap">Load campaigns</button>
     </div>
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
       <div style="display:flex;align-items:center;gap:6px;flex:1">
@@ -141,7 +143,7 @@
     <!-- Promo: dropdown -->
     <div id="promo-select-wrap">
       <select id="campaign-select" style="width:100%">
-        <option value="">— search for a campaign above —</option>
+        <option value="">— select a campaign —</option>
       </select>
     </div>
 
@@ -230,12 +232,12 @@
 
 <script>
   let mode = 'promo';
-  // Hide search row and pre-fill 'Promo' on load since Promo Email is the default mode
+  // Hide search input and pre-fill 'Promo' on load since Promo Email is the default mode
   (function() {
     var el = document.getElementById('campaign-search');
-    var row = document.getElementById('search-row');
+    var inputRow = document.getElementById('search-input-row');
     if (el) el.value = 'Promo';
-    if (row) row.style.display = 'none';
+    if (inputRow) inputRow.style.display = 'none';
   })();
   let campaignData = {};       // all campaigns ever fetched, keyed by id
 
@@ -276,8 +278,9 @@
     document.getElementById('multi-wrap').style.display = m === 'multi' ? 'block' : 'none';
     document.getElementById('name-step-num').textContent = m === 'promo' ? 'Step 3' : 'Step 2';
     document.getElementById('step1-title').textContent = m === 'promo' ? 'Select a campaign' : 'Search and add campaigns';
-    document.getElementById('search-row').style.display = m === 'promo' ? 'none' : 'flex';
+    document.getElementById('search-input-row').style.display = m === 'promo' ? 'none' : 'flex';
     document.getElementById('campaign-search').value = m === 'promo' ? 'Promo' : '';
+    document.getElementById('load-btn').textContent = m === 'promo' ? 'Load campaigns' : 'Search';
     resetTool(true);
   }
 
@@ -784,7 +787,7 @@
     }
     campaignData = {};
     document.getElementById('campaign-select').value = '';
-    document.getElementById('campaign-select').innerHTML = '<option value="">— search for a campaign above —</option>';
+    document.getElementById('campaign-select').innerHTML = '<option value="">— select a campaign —</option>';
     clearSearchResults(true);
     reportItems = [];
     renderSummary();
